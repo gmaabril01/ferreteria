@@ -4,7 +4,7 @@ import { createRequire } from 'node:module';
 
 // El módulo de la web es un script clásico (sin export) que también se puede cargar con require.
 const require = createRequire(import.meta.url);
-const { getStatus, statusLabel, formatTime } = require('../../sitio/js/horario.js');
+const { getStatus, statusLabel, formatTime } = require('../../js/horario.js');
 
 test('formatTime escribe horas sin cero inicial', () => {
   assert.equal(formatTime(450), '7:30');

@@ -16,7 +16,7 @@ export function replaceDomain(text, from, to) {
 }
 
 const here = dirname(fileURLToPath(import.meta.url));
-const FILES = ['sitio/index.html', 'sitio/sitemap.xml', 'sitio/robots.txt'];
+const FILES = ['index.html', 'sitemap.xml', 'robots.txt'];
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const configPath = join(here, 'domain.json');

@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /tools/
+Disallow: /docs/
+Disallow: /.impeccable/
 
 Sitemap: https://www.suministrosjoseluiscabrera.es/sitemap.xml

@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 
-const site = new URL('../../sitio/', import.meta.url);
+const site = new URL('../../', import.meta.url);
 const html = readFileSync(new URL('index.html', site), 'utf8');
 const ldMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
 const graph = ldMatch ? JSON.parse(ldMatch[1])['@graph'] : [];

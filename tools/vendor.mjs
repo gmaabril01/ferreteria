@@ -1,4 +1,4 @@
-// Copia las librerías y la tipografía a sitio/ para que la web no dependa de ningún CDN.
+// Copia las librerías y la tipografía a la web para que no dependa de ningún CDN.
 // Three.js se empaqueta con esbuild como script clásico (window.THREE) porque la web
 // no usa módulos ES (funciona con doble clic y con la caché de Hostinger).
 import { build } from 'esbuild';
@@ -7,7 +7,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const site = join(here, '..', 'sitio');
+const site = join(here, '..');
 const nm = join(here, 'node_modules');
 
 const copies = [

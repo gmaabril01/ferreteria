@@ -1,5 +1,5 @@
 // Convierte las fotos originales del cliente (carpeta raíz del proyecto) a WebP responsive
-// para sitio/assets/img, extrae el logo sin fondo y genera favicons e imagen para redes.
+// para assets/img, extrae el logo sin fondo y genera favicons e imagen para redes.
 import sharp from 'sharp';
 import { mkdirSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -7,8 +7,8 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..');
-const img = join(root, 'sitio/assets/img');
-const icons = join(root, 'sitio/assets/icons');
+const img = join(root, 'assets/img');
+const icons = join(root, 'assets/icons');
 mkdirSync(img, { recursive: true });
 mkdirSync(icons, { recursive: true });
 
@@ -108,7 +108,7 @@ const shade = Buffer.from(`<svg width="${ogW}" height="${ogH}" xmlns="http://www
     <stop offset="1" stop-color="#141210" stop-opacity=".92"/></linearGradient></defs>
   <rect width="100%" height="100%" fill="url(#g)"/></svg>`);
 // La fachada ya muestra el rótulo y el logo: no se superpone nada más.
-const ogOut = join(root, 'sitio/og-image.jpg');
+const ogOut = join(root, 'og-image.jpg');
 await sharp(join(root, '1tienda.jpeg')).resize(ogW, ogH, { fit: 'cover', position: 'top' })
   .composite([{ input: shade }])
   .jpeg({ quality: 82, mozjpeg: true }).toFile(ogOut);

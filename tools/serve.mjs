@@ -1,10 +1,10 @@
-// Servidor estático mínimo (sin dependencias) para previsualizar sitio/ en http://localhost:5173
+// Servidor estático mínimo (sin dependencias) para previsualizar la web en http://localhost:5173
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { dirname, extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const root = join(dirname(fileURLToPath(import.meta.url)), '..', 'sitio');
+const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const port = Number(process.env.PORT) || 5173;
 const TYPES = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
@@ -25,4 +25,4 @@ createServer(async (req, res) => {
   } catch {
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }).end('404');
   }
-}).listen(port, () => console.log(`Sirviendo sitio/ en http://localhost:${port}`));
+}).listen(port, () => console.log(`Sirviendo la web en http://localhost:${port}`));

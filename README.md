@@ -3,12 +3,16 @@
 Web de una sola página (HTML, CSS y JavaScript sin compilación) con intro 3D de una caja de herramientas,
 carta de colores de productos, tiendas, horario en vivo, contacto, sobre nosotros, reseñas y proveedores.
 
-## Qué se sube al hosting
+## Dónde está la web
 
-**Solo el contenido de la carpeta `sitio/`** (incluido el archivo oculto `.htaccess`).
-En Hostinger: Administrador de archivos → `public_html` → subir todo lo que hay dentro de `sitio/`.
+La web está en la **raíz del repositorio**, así que GitHub Pages la muestra directamente en
+https://gmaabril01.github.io/ferreteria/ (sin pasos intermedios). Cada `git push` a `main` la actualiza.
 
-Lo demás (`tools/`, `docs/`, fotos originales) es material de trabajo y no se sube.
+**Para Hostinger** sube solo estos archivos y carpetas a `public_html`:
+`index.html`, `styles.css`, `main.js`, `js/`, `lib/`, `assets/`, `og-image.jpg`, `robots.txt`,
+`sitemap.xml`, `site.webmanifest` y el archivo oculto `.htaccess` (activa «mostrar archivos ocultos» para verlo).
+
+Lo demás (`tools/`, `docs/`, `.impeccable/`, fotos originales) es material de trabajo y no hace falta subirlo.
 
 ## Ver la web en tu ordenador
 
@@ -16,7 +20,7 @@ Lo demás (`tools/`, `docs/`, fotos originales) es material de trabajo y no se s
 node tools/serve.mjs
 ```
 
-Después abre http://localhost:5173 en el navegador. (Abrir `sitio/index.html` con doble clic también funciona,
+Después abre http://localhost:5173 en el navegador. (Abrir `index.html` con doble clic también funciona,
 pero el navegador bloquea la tipografía en ese modo y verás una fuente del sistema.)
 
 ## Cambiar el dominio
@@ -45,6 +49,6 @@ Cada vez que cambies `styles.css` o algún `.js`, sube también `index.html` con
 |---|---|
 | `npm install` (dentro de `tools/`) | instala las herramientas de desarrollo |
 | `npm test` | tests del horario, del cambio de dominio y del SEO del HTML |
-| `node vendor.mjs` | vuelve a copiar Three.js, GSAP y la tipografía a `sitio/` |
+| `node vendor.mjs` | vuelve a copiar Three.js, GSAP y la tipografía a `lib/` y `assets/` |
 | `node optimize-images.mjs` | convierte las fotos originales a WebP, recorta el logo y crea iconos |
 | `node shots.mjs desktop <carpeta> i0 i1 #tiendas` | capturas de revisión con Chrome |
