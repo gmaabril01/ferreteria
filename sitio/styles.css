@@ -166,7 +166,7 @@ h1, h2, h3 { text-wrap: balance; font-weight: 800; line-height: 1.02; letter-spa
   font-weight: 650;
   font-stretch: var(--semi-wide);
   letter-spacing: 0.005em;
-  line-height: 1;
+  line-height: 1.15;
   transform-origin: 1.3rem 50%;
   transform: translate(var(--mx, 0px), var(--my, 0px));
   transition: transform .5s var(--ease-out), background-color .3s var(--ease-out), box-shadow .3s var(--ease-out);
@@ -177,12 +177,12 @@ h1, h2, h3 { text-wrap: balance; font-weight: 800; line-height: 1.02; letter-spa
   background: var(--picon);
   box-shadow: inset 0 1px 2px rgba(0,0,0,.9), 0 0 0 var(--hair) rgba(236,232,225,.18);
 }
-.strip-btn--red { --strip: var(--red); box-shadow: 0 12px 28px -14px rgba(176,64,47,.9); }
+.strip-btn--red { --strip: var(--red); color: #fff3ee; box-shadow: 0 12px 26px -14px rgba(0,0,0,.85); }
 .strip-btn-icon { width: 18px; height: 18px; flex: none; }
 @media (hover: hover) {
   .strip-btn:hover { transform: translate(var(--mx, 0px), var(--my, 0px)) rotate(-3deg); }
   .strip-btn:not(.strip-btn--red):hover { background: var(--ral-7024); }
-  .strip-btn--red:hover { background: #bf4a37; }
+  .strip-btn--red:hover { background: #a2372a; }
 }
 .strip-btn:active { transform: translate(var(--mx, 0px), var(--my, 0px)) rotate(-1deg) scale(.98); }
 
@@ -237,7 +237,7 @@ html.intro-on .nav:not(.is-shown) { transform: translateY(-120%); opacity: 0; po
   content: ""; width: 7px; height: 18px; border-radius: 4px; background: var(--swatch);
   box-shadow: inset 0 0 0 var(--hair) rgba(236,232,225,.25);
   transform-origin: 50% 100%;
-  transition: transform .45s var(--ease-out), height .45s var(--ease-out);
+  transition: transform .45s var(--ease-out);
 }
 .nav-links a:hover, .nav-links a.is-current { color: var(--text); }
 .nav-links a:hover::before, .nav-links a.is-current::before { transform: rotate(18deg); }
@@ -320,10 +320,10 @@ html.js .is-in .cota, html.js .cota.is-in { --cota: 1; }
     linear-gradient(rgba(236,232,225,.55), rgba(236,232,225,.55)) 50% 100% / var(--hair) 7px no-repeat,
     linear-gradient(rgba(236,232,225,.55), rgba(236,232,225,.55)) 0 50% / 7px var(--hair) no-repeat,
     linear-gradient(rgba(236,232,225,.55), rgba(236,232,225,.55)) 100% 50% / 7px var(--hair) no-repeat;
-  transition: width .35s var(--ease-out), height .35s var(--ease-out), margin .35s var(--ease-out), box-shadow .35s;
+  transition: scale .35s var(--ease-out), box-shadow .35s;
 }
 .cursor-dot { width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px; background: var(--red-ink); }
-.cursor.is-link .cursor-ring { width: 56px; height: 56px; margin: -28px 0 0 -28px; box-shadow: inset 0 0 0 var(--hair) var(--red-ink); }
+.cursor.is-link .cursor-ring { scale: 1.65; box-shadow: inset 0 0 0 var(--hair) var(--red-ink); }
 @media (hover: none), (pointer: coarse) { .cursor { display: none; } }
 
 /* =============================================================
@@ -463,7 +463,7 @@ html.intro-off .hero, html:not(.js) .hero { opacity: 1; visibility: visible; ani
 .cat-strip {
   position: relative;
   display: flex; align-items: center; gap: 0.9rem;
-  min-height: 58px; padding: 0 1.4rem 0 3.2rem;
+  min-height: 58px; padding: 0.7rem 1.4rem 0.7rem 3.2rem;
   border-radius: 999px;
   background: var(--swatch); color: var(--swatch-ink);
   box-shadow: inset 0 0 0 var(--hair) rgba(236,232,225,.14), 0 14px 26px -18px rgba(0,0,0,.9);
@@ -810,7 +810,7 @@ html.js .regla:not(.is-in) .dia-barra { transform: scaleX(0); }
   background:
     radial-gradient(90% 70% at 85% 30%, rgba(176,64,47,.35), transparent 70%),
     var(--oxido);
-  color: var(--cal);
+  color: #fbede8;
   display: grid; gap: 2rem;
   overflow: clip;
 }
@@ -963,18 +963,22 @@ html:not(.js) .suppliers-list, .marquee:not(.is-running) .suppliers-list { flex-
   position: relative; display: inline-flex; align-items: center; justify-content: center;
   height: 88px; padding: 0 2.6rem;
   border-radius: 10px;
-  background:
-    radial-gradient(circle at 12px 12px, #a7aaad 0 3px, #3b3d40 3.5px 4.5px, transparent 5px),
-    radial-gradient(circle at calc(100% - 12px) 12px, #a7aaad 0 3px, #3b3d40 3.5px 4.5px, transparent 5px),
-    radial-gradient(circle at 12px calc(100% - 12px), #a7aaad 0 3px, #3b3d40 3.5px 4.5px, transparent 5px),
-    radial-gradient(circle at calc(100% - 12px) calc(100% - 12px), #a7aaad 0 3px, #3b3d40 3.5px 4.5px, transparent 5px),
-    repeating-linear-gradient(180deg, rgba(255,255,255,.028) 0 1px, transparent 1px 3px),
-    linear-gradient(180deg, #2f2b28, #221f1c);
+  background: linear-gradient(180deg, #2f2b28, #221f1c);
   box-shadow: inset 0 0 0 var(--hair) rgba(236,232,225,.14), inset 0 1px 0 rgba(255,255,255,.06), 0 18px 30px -22px rgba(0,0,0,.9);
   font-size: 1.15rem; font-weight: 750; font-stretch: var(--wide); letter-spacing: -0.01em; white-space: nowrap;
   color: #d9d4cc;
   transform-origin: 12px 12px;
   transition: transform .7s var(--ease-out), color .3s;
+}
+.plate::before {
+  /* cepillado del metal y cuatro remaches */
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background:
+    radial-gradient(circle at 12px 12px, #a7aaad 0 3px, #3b3d40 3.5px 4.5px, transparent 5px),
+    radial-gradient(circle at calc(100% - 12px) 12px, #a7aaad 0 3px, #3b3d40 3.5px 4.5px, transparent 5px),
+    radial-gradient(circle at 12px calc(100% - 12px), #a7aaad 0 3px, #3b3d40 3.5px 4.5px, transparent 5px),
+    radial-gradient(circle at calc(100% - 12px) calc(100% - 12px), #a7aaad 0 3px, #3b3d40 3.5px 4.5px, transparent 5px),
+    repeating-linear-gradient(180deg, rgba(255,255,255,.028) 0 1px, transparent 1px 3px);
 }
 .plate:hover, .plate:focus-visible { color: var(--red-ink); transform: rotate(2.5deg); }
 

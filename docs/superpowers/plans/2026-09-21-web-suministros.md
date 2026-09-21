@@ -272,3 +272,18 @@ test('contacto', () => {
 - [ ] Step 2: `impeccable` (audit + polish) y revisión de contrastes con script; corregir.
 - [ ] Step 3: Recorrido final en navegador (escritorio y móvil), consola limpia, `node --test tools/tests` en verde; README con previsualizar/desplegar/cambiar dominio.
 - [ ] Step 4: Commit y `superpowers:verification-before-completion` + `superpowers:finishing-a-development-branch`.
+
+---
+
+## Desviaciones durante la ejecución
+
+- **Scripts clásicos (IIFE) en vez de módulos ES** y **scroll nativo sin Lenis**, por las reglas de la skill
+  *adrian-saenz-hostinger-premium-website* (funciona con doble clic y con la caché de Hostinger).
+  Three.js se empaqueta con esbuild como `lib/three.bundle.min.js` (global `window.THREE`); `?v=` en CSS/JS.
+- Estructura final: `sitio/styles.css`, `sitio/main.js` y `sitio/js/{horario,productos,three-core,intro,mini}.js`.
+- Tipografía única *Archivo* variable (el eje de anchura hace de roles) en lugar de tres familias
+  (Instrument Sans y JetBrains Mono descartadas por las reglas de *frontend-design*/*impeccable*).
+- Dirección visual elegida por el cliente en la página de decisión de *impeccable*: «carta de colores».
+- `prefers-reduced-motion` solo desactiva lo intrusivo (brasas, animaciones infinitas), no la intro ni las microinteracciones.
+- Capturas de revisión con `tools/shots.mjs` (puppeteer-core + Chrome local) porque la emulación del panel
+  del navegador no captura bien WebGL a 1440 px.
