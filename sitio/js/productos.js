@@ -51,6 +51,20 @@
       if (idx !== current) { current = idx; setActive(cats, idx); }
     }
 
+    // Las tiras nunca pueden tapar el título: su largo sale del hueco real bajo la cabecera.
+    var PULL = 34, GAP = 28, BOTTOM = 20, MIN_H = 240, MAX_H = 620;
+    function fit() {
+      var pinBox = pin.getBoundingClientRect();
+      var headBottom = head.getBoundingClientRect().bottom - pinBox.top;
+      var room = pin.clientHeight - headBottom - GAP - PULL - BOTTOM;
+      deck.style.setProperty("--strip-h", Math.round(Math.max(MIN_H, Math.min(MAX_H, room))) + "px");
+    }
+    fit();
+    var ro = new ResizeObserver(fit);
+    ro.observe(head);
+    ro.observe(pin);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+
     var st = ScrollTrigger.create({
       trigger: pin,
       start: "top top",
@@ -72,6 +86,8 @@
 
     return function unmount() {
       st.kill();
+      ro.disconnect();
+      deck.style.removeProperty("--strip-h");
       section.insertBefore(head, pin);
       section.insertBefore(deck, pin);
       pin.remove();

@@ -502,7 +502,7 @@ html.intro-off .hero, html:not(.js) .hero { opacity: 1; visibility: visible; ani
   }
   html.deck-on .productos .section-head {
     position: absolute; z-index: 3; top: calc(var(--nav-h) + 40px); left: var(--gutter);
-    width: min(36vw, 520px); margin: 0;
+    width: min(44vw, 620px); margin: 0;
   }
   html.deck-on .deck { position: absolute; inset: 0; display: block; }
   html.deck-on .deck-bolt {
@@ -516,7 +516,7 @@ html.intro-off .hero, html:not(.js) .hero { opacity: 1; visibility: visible; ani
   html.deck-on .cat-strip {
     position: absolute; z-index: calc(10 - var(--depth, 0));
     left: var(--gutter); bottom: 20px;
-    width: 104px; height: min(64vh, 620px);
+    width: 104px; height: var(--strip-h, min(56vh, 620px));
     padding: 0; display: block;
     border-radius: 52px;
     transform-origin: 52px calc(100% - 52px);

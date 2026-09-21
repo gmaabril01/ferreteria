@@ -9,7 +9,7 @@ const CHROME = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const url = process.env.URL || 'http://localhost:5173/';
 const vp = mode === 'mobile'
   ? { width: 390, height: 844, deviceScaleFactor: 2, isMobile: true, hasTouch: true }
-  : { width: 1440, height: 900, deviceScaleFactor: 1 };
+  : { width: Number(process.env.VW) || 1440, height: Number(process.env.VH) || 900, deviceScaleFactor: 1 };
 
 mkdirSync(outDir, { recursive: true });
 const browser = await puppeteer.launch({
