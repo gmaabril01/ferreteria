@@ -80,13 +80,9 @@
     var scene = stage.scene, camera = stage.camera;
     var m = core.materials();
     core.workshopLights(scene, { key: 2.6, rim: 1.6, fill: 0.5 });
-    camera.position.set(0, 0.6, 9);
-    camera.lookAt(0, 0, 0);
 
     var rig = new T.Group();
     rig.rotation.set(-0.7, 0, 0);
-    rig.scale.setScalar(0.66);
-    rig.position.set(1.05, -0.1, 0);
     scene.add(rig);
 
     // Perno vertical con su tuerca; la boca de la llave abraza la cabeza del perno.
@@ -111,21 +107,70 @@
     plate.position.z = -0.95;
     rig.add(plate);
 
+    // Recorrido completo de la llave: giro por scroll + balanceo + inclinación por ratón.
+    var TURN_MIN = 0.35, TURN_RANGE = 1.5, WOBBLE = 0.04, TILT_X = 0.12, TILT_Y = 0.25, BASE_X = -0.7;
+
+    // Encuadre calculado: se recorren todas las posiciones posibles de la llave y la cámara
+    // se coloca para que el conjunto entero quepa siempre dentro del lienzo (nunca se corta).
+    var corner = new T.Vector3(), probe = new T.Vector3();
+    function collect(out) {
+      rig.updateMatrixWorld(true);
+      rig.traverse(function (o) {
+        if (!o.isMesh) return;
+        // Vértices reales (uno de cada varios): contorno ajustado, sin el margen de una caja envolvente.
+        var pos = o.geometry.attributes.position;
+        var step = Math.max(1, Math.floor(pos.count / 400));
+        for (var i = 0; i < pos.count; i += step) {
+          corner.fromBufferAttribute(pos, i).applyMatrix4(o.matrixWorld);
+          out.push(corner.clone());
+        }
+      });
+    }
+    function pose(turn, mx, my) {
+      keyPivot.rotation.z = turn;
+      boltSpin.rotation.z = turn;
+      rig.rotation.x = BASE_X + my * TILT_X;
+      rig.rotation.y = mx * TILT_Y;
+    }
+    var viewDir = new T.Vector3(0, 0.6, 9).normalize();
+    function fit() {
+      var pts = [];
+      for (var tz = TURN_MIN - WOBBLE; tz <= TURN_MIN + TURN_RANGE + WOBBLE + 0.001; tz += 0.08) {
+        for (var mx = -1; mx <= 1; mx++) for (var my = -1; my <= 1; my++) { pose(tz, mx, my); collect(pts); }
+      }
+      var min = new T.Vector3(Infinity, Infinity, Infinity), max = new T.Vector3(-Infinity, -Infinity, -Infinity);
+      pts.forEach(function (p) { min.min(p); max.max(p); });
+      var center = min.clone().add(max).multiplyScalar(0.5);
+      var dist = 10;
+      for (var k = 0; k < 6; k++) {
+        camera.position.copy(center).addScaledVector(viewDir, dist);
+        camera.lookAt(center);
+        camera.updateMatrixWorld(true);
+        var reach = 0;
+        for (var i = 0; i < pts.length; i++) {
+          probe.copy(pts[i]).project(camera);
+          reach = Math.max(reach, Math.abs(probe.x), Math.abs(probe.y));
+        }
+        dist *= reach / 0.9;
+      }
+      camera.updateMatrixWorld(true);
+      pose(turn, mouseS.x, mouseS.y);
+    }
+
     var mouse = new T.Vector2(), mouseS = new T.Vector2();
     window.addEventListener("pointermove", function (e) {
       mouse.set(e.clientX / window.innerWidth * 2 - 1, e.clientY / window.innerHeight * 2 - 1);
     }, { passive: true });
 
-    var turn = 0;
+    var turn = TURN_MIN;
+    fit();
+    stage.onResize = fit;
     stage.onFrame(function (t, dt) {
       mouseS.lerp(mouse, Math.min(1, dt * 2.5));
       var p = scrollProgress(el);
-      var target = 0.35 + p * 1.5 + Math.sin(t * 0.6) * (opts && opts.reduced ? 0 : 0.04);
+      var target = TURN_MIN + p * TURN_RANGE + Math.sin(t * 0.6) * (opts && opts.reduced ? 0 : WOBBLE);
       turn += (target - turn) * Math.min(1, dt * 5);
-      keyPivot.rotation.z = turn;
-      boltSpin.rotation.z = turn;
-      rig.rotation.x = -0.7 + mouseS.y * 0.12;
-      rig.rotation.y = mouseS.x * 0.25;
+      pose(turn, Math.max(-1, Math.min(1, mouseS.x)), Math.max(-1, Math.min(1, mouseS.y)));
     });
     return stage;
   }

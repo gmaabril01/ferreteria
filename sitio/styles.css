@@ -308,24 +308,6 @@ html.js .is-in .cota, html.js .cota.is-in { --cota: 1; }
 .cota .screw:first-child { left: -9px; }
 .cota .screw:last-child { right: -9px; }
 
-/* Cursor de precisión */
-.cursor { position: fixed; inset: 0 auto auto 0; z-index: 90; pointer-events: none; opacity: 0; transition: opacity .3s var(--ease-out); }
-.cursor.is-ready { opacity: 1; }
-.cursor-ring, .cursor-dot { position: absolute; left: 0; top: 0; border-radius: 50%; }
-.cursor-ring {
-  width: 34px; height: 34px; margin: -17px 0 0 -17px;
-  box-shadow: inset 0 0 0 var(--hair) rgba(236,232,225,.55);
-  background:
-    linear-gradient(rgba(236,232,225,.55), rgba(236,232,225,.55)) 50% 0 / var(--hair) 7px no-repeat,
-    linear-gradient(rgba(236,232,225,.55), rgba(236,232,225,.55)) 50% 100% / var(--hair) 7px no-repeat,
-    linear-gradient(rgba(236,232,225,.55), rgba(236,232,225,.55)) 0 50% / 7px var(--hair) no-repeat,
-    linear-gradient(rgba(236,232,225,.55), rgba(236,232,225,.55)) 100% 50% / 7px var(--hair) no-repeat;
-  transition: scale .35s var(--ease-out), box-shadow .35s;
-}
-.cursor-dot { width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px; background: var(--red-ink); }
-.cursor.is-link .cursor-ring { scale: 1.65; box-shadow: inset 0 0 0 var(--hair) var(--red-ink); }
-@media (hover: none), (pointer: coarse) { .cursor { display: none; } }
-
 /* =============================================================
    5. Secciones
    ============================================================= */
@@ -856,11 +838,11 @@ html.js .regla:not(.is-in) .dia-barra { transform: scaleX(0); }
 .redes svg { width: 20px; height: 20px; }
 .stage { position: relative; width: 100%; }
 .stage canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
-.stage--wrench { min-height: 300px; }
+.stage--wrench { min-height: 320px; }
 @media (min-width: 960px) {
-  .contacto { grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr); align-items: center; }
+  .contacto { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); align-items: center; }
   .contacto > * { max-width: none; margin: 0; }
-  .stage--wrench { height: min(62vh, 560px); }
+  .stage--wrench { height: min(64vh, 580px); }
 }
 
 /* ---------- 5.6 Sobre nosotros ---------- */

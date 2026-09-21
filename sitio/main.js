@@ -52,7 +52,7 @@
 
   // Los tornillos de las cotas giran al hacer scroll (como si se apretaran).
   function initScrews() {
-    var screws = $("[data-spin]");
+    var screws = $$("[data-spin]");
     if (!screws.length) return;
     var ticking = false;
     function update() {
@@ -240,29 +240,6 @@
   }
 
   // ---------- Microinteracciones ----------
-  function initCursor() {
-    var cursor = $("[data-cursor]");
-    if (!cursor || !fineHover) return;
-    var ring = $(".cursor-ring", cursor), dot = $(".cursor-dot", cursor);
-    var x = 0, y = 0, rx = 0, ry = 0, first = false, raf = 0;
-    function loop() {
-      rx += (x - rx) * 0.2; ry += (y - ry) * 0.2;
-      ring.style.transform = "translate3d(" + rx.toFixed(1) + "px," + ry.toFixed(1) + "px,0)";
-      raf = Math.abs(x - rx) + Math.abs(y - ry) > 0.2 ? requestAnimationFrame(loop) : 0;
-    }
-    addEventListener("pointermove", function (e) {
-      if (e.pointerType !== "mouse") return;
-      x = e.clientX; y = e.clientY;
-      dot.style.transform = "translate3d(" + x + "px," + y + "px,0)";
-      if (!first) { first = true; rx = x; ry = y; cursor.classList.add("is-ready"); }
-      if (!raf) raf = requestAnimationFrame(loop);
-    }, { passive: true });
-    document.addEventListener("mouseover", function (e) {
-      cursor.classList.toggle("is-link", !!e.target.closest("a, button, .cat-strip"));
-    });
-    document.addEventListener("mouseleave", function () { cursor.classList.remove("is-ready"); first = false; });
-  }
-
   function initMagnetic() {
     if (!fineHover) return;
     $$("[data-magnetic]").forEach(function (el) {
@@ -357,7 +334,6 @@
     safe(initGalleries, "initGalleries");
     safe(initStorePins, "initStorePins");
     safe(initMarquee, "initMarquee");
-    safe(initCursor, "initCursor");
     safe(initMagnetic, "initMagnetic");
     safe(function () { if (ns.productos) ns.productos.init(); }, "productos");
     safe(init3D, "init3D");
