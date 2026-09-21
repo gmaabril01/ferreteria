@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Herramientas de desarrollo de la web (no se suben al hosting).",
   "scripts": {
-    "test": "node --test tests/",
+    "test": "node --test \"tests/*.test.mjs\"",
     "vendor": "node vendor.mjs",
     "images": "node optimize-images.mjs",
     "serve": "node serve.mjs",
