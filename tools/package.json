@@ -1,0 +1,20 @@
+{
+  "name": "suministros-jlc-tools",
+  "private": true,
+  "type": "module",
+  "description": "Herramientas de desarrollo de la web (no se suben al hosting).",
+  "scripts": {
+    "test": "node --test tests/",
+    "vendor": "node vendor.mjs",
+    "images": "node optimize-images.mjs",
+    "serve": "node serve.mjs",
+    "domain": "node set-domain.mjs"
+  },
+  "devDependencies": {
+    "@fontsource-variable/archivo": "^5.3.0",
+    "esbuild": "^0.28.2",
+    "gsap": "^3.15.0",
+    "sharp": "^0.35.4",
+    "three": "^0.186.0"
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "tias-fachada": [
+    {
+      "w": 640,
+      "h": 444,
+      "file": "tias-fachada-640.webp"
+    },
+    {
+      "w": 1024,
+      "h": 711,
+      "file": "tias-fachada-1024.webp"
+    },
+    {
+      "w": 1600,
+      "h": 1111,
+      "file": "tias-fachada-1600.webp"
+    }
+  ],
+  "tias-edificio": [
+    {
+      "w": 640,
+      "h": 440,
+      "file": "tias-edificio-640.webp"
+    },
+    {
+      "w": 1024,
+      "h": 704,
+      "file": "tias-edificio-1024.webp"
+    },
+    {
+      "w": 1208,
+      "h": 830,
+      "file": "tias-edificio-1208.webp"
+    }
+  ],
+  "tias-material-electrico": [
+    {
+      "w": 640,
+      "h": 745,
+      "file": "tias-material-electrico-640.webp"
+    }
+  ],
+  "tias-almacen-fontaneria": [
+    {
+      "w": 640,
+      "h": 440,
+      "file": "tias-almacen-fontaneria-640.webp"
+    },
+    {
+      "w": 1024,
+      "h": 704,
+      "file": "tias-almacen-fontaneria-1024.webp"
+    }
+  ],
+  "playa-blanca-fachada": [
+    {
+      "w": 640,
+      "h": 484,
+      "file": "playa-blanca-fachada-640.webp"
+    },
+    {
+      "w": 1024,
+      "h": 774,
+      "file": "playa-blanca-fachada-1024.webp"
+    }
+  ],
+  "playa-blanca-barbacoas": [
+    {
+      "w": 640,
+      "h": 445,
+      "file": "playa-blanca-barbacoas-640.webp"
+    },
+    {
+      "w": 1024,
+      "h": 712,
+      "file": "playa-blanca-barbacoas-1024.webp"
+    }
+  ],
+  "playa-blanca-piscinas": [
+    {
+      "w": 640,
+      "h": 440,
+      "file": "playa-blanca-piscinas-640.webp"
+    },
+    {
+      "w": 1024,
+      "h": 704,
+      "file": "playa-blanca-piscinas-1024.webp"
+    }
+  ],
+  "playa-blanca-tuberia-pvc": [
+    {
+      "w": 640,
+      "h": 753,
+      "file": "playa-blanca-tuberia-pvc-640.webp"
+    }
+  ],
+  "exposicion-puertas-automatismos": [
+    {
+      "w": 640,
+      "h": 348,
+      "file": "exposicion-puertas-automatismos-640.webp"
+    },
+    {
+      "w": 1024,
+      "h": 557,
+      "file": "exposicion-puertas-automatismos-1024.webp"
+    },
+    {
+      "w": 1600,
+      "h": 870,
+      "file": "exposicion-puertas-automatismos-1600.webp"
+    }
+  ]
+}
