@@ -25,8 +25,8 @@ for (const [from, to] of copies) {
 // Solo lo que usan js/three-core.js, js/intro.js y js/mini.js: así el paquete pesa lo mínimo.
 const entry = `
 import {
-  WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, InstancedMesh, Object3D, Vector2, Vector3, Color,
-  Matrix4, Quaternion, Euler, MathUtils, Clock, BufferGeometry, BoxGeometry, CylinderGeometry, LatheGeometry,
+  WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, InstancedMesh, Object3D, Vector2, Vector3, Color, BufferAttribute,
+  Matrix4, Quaternion, Euler, MathUtils, BufferGeometry, BoxGeometry, CylinderGeometry, LatheGeometry,
   TubeGeometry, TorusGeometry, ExtrudeGeometry, SphereGeometry, PlaneGeometry, CircleGeometry, Shape, Path,
   CatmullRomCurve3, Curve, MeshStandardMaterial, MeshPhysicalMaterial, MeshBasicMaterial, ShadowMaterial,
   AmbientLight, DirectionalLight, PointLight, SpotLight, HemisphereLight, PMREMGenerator, ACESFilmicToneMapping,
@@ -36,8 +36,8 @@ import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeom
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { mergeGeometries, mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 window.THREE = {
-  WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, InstancedMesh, Object3D, Vector2, Vector3, Color,
-  Matrix4, Quaternion, Euler, MathUtils, Clock, BufferGeometry, BoxGeometry, CylinderGeometry, LatheGeometry,
+  WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, InstancedMesh, Object3D, Vector2, Vector3, Color, BufferAttribute,
+  Matrix4, Quaternion, Euler, MathUtils, BufferGeometry, BoxGeometry, CylinderGeometry, LatheGeometry,
   TubeGeometry, TorusGeometry, ExtrudeGeometry, SphereGeometry, PlaneGeometry, CircleGeometry, Shape, Path,
   CatmullRomCurve3, Curve, MeshStandardMaterial, MeshPhysicalMaterial, MeshBasicMaterial, ShadowMaterial,
   AmbientLight, DirectionalLight, PointLight, SpotLight, HemisphereLight, PMREMGenerator, ACESFilmicToneMapping,
