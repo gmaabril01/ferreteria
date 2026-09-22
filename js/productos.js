@@ -68,8 +68,10 @@
     var st = ScrollTrigger.create({
       trigger: pin,
       start: "top top",
-      end: function () { return "+=" + Math.round(window.innerHeight * n * 0.62); },
+      // Menos recorrido fijado (antes ~5 pantallas): la página avanza y no parece que te quedas en el mismo sitio.
+      end: function () { return "+=" + Math.round(window.innerHeight * n * 0.36); },
       pin: true,
+      anticipatePin: 1,
       scrub: 0.6,
       invalidateOnRefresh: true,
       onUpdate: function (self) { render(self.progress); }
@@ -80,7 +82,8 @@
     strips.forEach(function (strip, i) {
       strip.addEventListener("click", function () {
         var target = st.start + (OPEN_END + (i / (n - 1)) * (1 - OPEN_END)) * (st.end - st.start);
-        window.scrollTo({ top: target + 2, behavior: reduced ? "auto" : "smooth" });
+        if (ns.scrollToY) ns.scrollToY(target + 2);
+        else window.scrollTo({ top: target + 2, behavior: reduced ? "auto" : "smooth" });
       });
     });
 

@@ -94,7 +94,8 @@ test('scripts clásicos con defer y versión, sin módulos', () => {
     assert.match(tag, /\bdefer\b/, tag);
     assert.match(tag, /\?v=\d{8}/, tag);
   }
-  assert.match(html, /href="styles\.css\?v=\d{8}"/);
+  // Fecha AAAAMMDD con revisión opcional del mismo día (p. ej. 2026092202)
+  assert.match(html, /href="styles\.css\?v=\d{8}(\d{2})?"/);
 });
 
 test('sin guiones largos en el texto de la web', () => {

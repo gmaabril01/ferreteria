@@ -3,7 +3,7 @@
 (function () {
   "use strict";
 
-  var VER = "20260922";
+  var VER = "2026092202";
   var ns = (window.__JLC__ = window.__JLC__ || {});
   var root = document.documentElement;
   var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -62,6 +62,24 @@
     addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
     update();
   }
+
+  // ---------- Desplazamiento suave ----------
+  // Lenis suaviza la rueda del ratón (en el móvil se deja el scroll táctil nativo) y va
+  // sincronizado con GSAP: las animaciones ligadas al scroll no dan saltos al ir rápido.
+  function initLenis() {
+    if (!window.Lenis || !window.gsap || !window.ScrollTrigger) return;
+    var lenis = new Lenis({ lerp: reduced ? 0.2 : 0.1, smoothWheel: true, wheelMultiplier: 1, syncTouch: false, autoRaf: false });
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+    gsap.ticker.lagSmoothing(0);
+    ns.lenis = lenis;
+  }
+
+  function scrollToY(y) {
+    if (ns.lenis) ns.lenis.scrollTo(y, { duration: reduced ? 0.6 : 1.1 });
+    else window.scrollTo({ top: y, behavior: reduced ? "auto" : "smooth" });
+  }
+  ns.scrollToY = scrollToY;
 
   // ---------- Navegación ----------
   function introEnd() {
@@ -129,7 +147,7 @@
         top = el.getBoundingClientRect().top + scrollY - (id === "#contenido" ? 0 : 70);
       }
       e.preventDefault();
-      window.scrollTo({ top: top, behavior: reduced ? "auto" : "smooth" });
+      scrollToY(top);
       if (id !== "#inicio") history.replaceState(null, "", id);
     });
   }
@@ -330,6 +348,7 @@
         ScrollTrigger.config({ ignoreMobileResize: true });
       } catch (_) {}
     }
+    safe(initLenis, "initLenis");
     safe(initHairline, "initHairline");
     safe(initTape, "initTape");
     safe(initScrews, "initScrews");

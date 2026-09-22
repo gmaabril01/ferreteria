@@ -13,7 +13,13 @@ const nm = join(here, 'node_modules');
 const copies = [
   ['gsap/dist/gsap.min.js', 'lib/gsap.min.js'],
   ['gsap/dist/ScrollTrigger.min.js', 'lib/ScrollTrigger.min.js'],
-  ['@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2', 'assets/fonts/archivo-variable.woff2'],
+  ['lenis/dist/lenis.min.js', 'lib/lenis.min.js'],
+  // Bricolage Grotesque (títulos, números, texto) con sus ejes de peso, anchura y tamaño óptico
+  ['@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2', 'assets/fonts/bricolage-variable.woff2'],
+  // Zilla Slab (nombre, fichas de catálogo, sobre nosotros y reseñas)
+  ['@fontsource/zilla-slab/files/zilla-slab-latin-500-normal.woff2', 'assets/fonts/zilla-slab-500.woff2'],
+  ['@fontsource/zilla-slab/files/zilla-slab-latin-500-italic.woff2', 'assets/fonts/zilla-slab-500-italic.woff2'],
+  ['@fontsource/zilla-slab/files/zilla-slab-latin-700-normal.woff2', 'assets/fonts/zilla-slab-700.woff2'],
 ];
 
 for (const [from, to] of copies) {
@@ -56,6 +62,6 @@ await build({
   outfile: join(site, 'lib/three.bundle.min.js'),
 });
 
-for (const f of ['lib/gsap.min.js', 'lib/ScrollTrigger.min.js', 'lib/three.bundle.min.js', 'assets/fonts/archivo-variable.woff2']) {
+for (const f of ['lib/gsap.min.js', 'lib/ScrollTrigger.min.js', 'lib/lenis.min.js', 'lib/three.bundle.min.js', 'assets/fonts/bricolage-variable.woff2', 'assets/fonts/zilla-slab-700.woff2']) {
   console.log(f.padEnd(34), (statSync(join(site, f)).size / 1024).toFixed(1), 'KB');
 }
