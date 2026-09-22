@@ -38,7 +38,8 @@
     var canvas = host.tagName === "CANVAS" ? host : host.appendChild(document.createElement("canvas"));
     var box = host.tagName === "CANVAS" ? host.parentElement : host;
     var renderer = new T.WebGLRenderer({ canvas: canvas, antialias: !mobile || opts.antialias, alpha: true, powerPreference: "high-performance" });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : (opts.maxDpr || 2)));
+    // Móvil: menos píxeles que pintar por fotograma para que el 3D vaya fluido.
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.25 : (opts.maxDpr || 2)));
     renderer.outputColorSpace = T.SRGBColorSpace;
     renderer.toneMapping = T.ACESFilmicToneMapping;
     renderer.toneMappingExposure = opts.exposure || 1;

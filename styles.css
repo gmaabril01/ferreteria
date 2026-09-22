@@ -400,8 +400,9 @@ html:not(.js) .intro-cue, html.intro-off .intro-cue { display: none; }
   background: var(--swatch);
   box-shadow: inset 0 0 0 var(--hair) rgba(236,232,225,.16), 0 18px 30px -18px rgba(0,0,0,.9);
   transform-origin: 42px calc(100% - 42px);
-  transform: rotate(calc(var(--i) * 2.2deg + var(--fan, 0) * var(--i) * 6.5deg));
-  transition: transform .9s var(--ease-out);
+  /* El scroll (--fan) mueve la carta fotograma a fotograma, sin transición que lo persiga;
+     el paso del ratón (--hover-fan) se anima aparte con su propia transición. */
+  transform: rotate(calc(var(--i) * 2.2deg + max(var(--fan, 0), var(--hover-fan)) * var(--i) * 6.5deg));
 }
 .hero-strip::after {
   content: ""; position: absolute; left: 50%; bottom: 30px; width: 15px; height: 15px; margin-left: -7.5px;
@@ -416,13 +417,14 @@ html:not(.js) .intro-cue, html.intro-off .intro-cue { display: none; }
   position: absolute; left: 30px; bottom: 30px; width: 24px; height: 24px; z-index: 2;
   color: #b6b8bb; --screw-slot: #4a4d52; --screw-rim: rgba(0,0,0,.4);
   filter: drop-shadow(0 2px 3px rgba(0,0,0,.6));
-  transition: transform .9s var(--ease-out);
+  transform: rotate(calc(max(var(--fan, 0), var(--hover-fan)) * 60deg));
 }
-@media (hover: hover) {
-  .hero-deck:hover { --fan: 1; }
-  .hero-deck:hover .hero-deck-bolt { transform: rotate(60deg); }
+@property --hover-fan { syntax: "<number>"; inherits: true; initial-value: 0; }
+.hero-deck { --hover-fan: 0; transition: --hover-fan .9s var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .hero-deck:hover { --hover-fan: 1; }
 }
-.hero-deck:focus-visible { --fan: 1; outline-offset: 12px; }
+.hero-deck:focus-visible { --hover-fan: 1; outline-offset: 12px; }
 
 /* Intro activa: la sección se alarga y el inicio aparece al final de la caja */
 html.js .intro { height: 420vh; height: 420svh; }
@@ -1002,18 +1004,31 @@ html.js [data-reveal]:not(.is-in) { opacity: 0; transform: rotate(-2.5deg) trans
    8. Responsive
    ============================================================= */
 @media (max-width: 959px) {
-  .hero { grid-template-columns: minmax(0, 1fr); align-content: end; padding-top: calc(var(--nav-h) + 24px); }
-  .hero-deck {
-    position: absolute; right: var(--gutter); top: calc(var(--nav-h) + 28px);
-    width: 150px; height: min(220px, 30vh);
+  /* Móvil: la carta de colores vive en la fila del logo, a su derecha, y se abre hacia arriba:
+     así nunca puede tapar el nombre ni el eslogan. */
+  .hero {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: "logo deck" "title title" "slogan slogan" "actions actions";
+    align-content: end; gap: 0 1rem;
+    padding-top: calc(var(--nav-h) + 24px);
   }
-  .hero-strip { width: 44px; border-radius: 22px; transform-origin: 22px calc(100% - 22px); }
-  .hero-strip::after { bottom: 15px; width: 10px; height: 10px; margin-left: -5px; }
+  .hero-copy { display: contents; }
+  .hero-logo { grid-area: logo; align-self: end; }
+  .hero-title { grid-area: title; }
+  .hero-slogan { grid-area: slogan; }
+  .hero-actions { grid-area: actions; }
+  .hero-deck {
+    grid-area: deck; justify-self: end; align-self: end;
+    width: 136px; height: 92px; margin-bottom: 1.4rem;
+  }
+  .hero-strip { width: 30px; border-radius: 15px; transform-origin: 15px calc(100% - 15px); }
+  .hero-strip::after { bottom: 10px; width: 8px; height: 8px; margin-left: -4px; }
   .hero-strip > span { display: none; }
-  .hero-deck-bolt { left: 12px; bottom: 12px; width: 20px; height: 20px; }
+  .hero-deck-bolt { left: 5px; bottom: 5px; width: 20px; height: 20px; }
 }
 @media (max-width: 539px) {
-  .hero-logo { width: 84px; margin-bottom: 1rem; }
+  .hero-logo { width: 84px; margin-bottom: 1.4rem; }
+  .hero-deck { width: 124px; height: 80px; }
   .hero-actions .strip-btn { flex: 1 1 auto; justify-content: center; }
 }
 

@@ -3,7 +3,7 @@
 (function () {
   "use strict";
 
-  var VER = "20260921";
+  var VER = "20260922";
   var ns = (window.__JLC__ = window.__JLC__ || {});
   var root = document.documentElement;
   var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -323,7 +323,13 @@
 
   // ---------- Arranque ----------
   function boot() {
-    if (window.gsap && window.ScrollTrigger) { try { gsap.registerPlugin(ScrollTrigger); } catch (_) {} }
+    if (window.gsap && window.ScrollTrigger) {
+      try {
+        gsap.registerPlugin(ScrollTrigger);
+        // En el móvil, la barra del navegador aparece y desaparece al hacer scroll: que no provoque saltos.
+        ScrollTrigger.config({ ignoreMobileResize: true });
+      } catch (_) {}
+    }
     safe(initHairline, "initHairline");
     safe(initTape, "initTape");
     safe(initScrews, "initScrews");
