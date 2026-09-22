@@ -14,12 +14,10 @@ const copies = [
   ['gsap/dist/gsap.min.js', 'lib/gsap.min.js'],
   ['gsap/dist/ScrollTrigger.min.js', 'lib/ScrollTrigger.min.js'],
   ['lenis/dist/lenis.min.js', 'lib/lenis.min.js'],
-  // Bricolage Grotesque (títulos, números, texto) con sus ejes de peso, anchura y tamaño óptico
-  ['@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-standard-normal.woff2', 'assets/fonts/bricolage-variable.woff2'],
-  // Zilla Slab (nombre, fichas de catálogo, sobre nosotros y reseñas)
-  ['@fontsource/zilla-slab/files/zilla-slab-latin-500-normal.woff2', 'assets/fonts/zilla-slab-500.woff2'],
-  ['@fontsource/zilla-slab/files/zilla-slab-latin-500-italic.woff2', 'assets/fonts/zilla-slab-500-italic.woff2'],
-  ['@fontsource/zilla-slab/files/zilla-slab-latin-700-normal.woff2', 'assets/fonts/zilla-slab-700.woff2'],
+  // Instrument Serif (titulares, eslogan, teléfonos, reseñas) y Geist (texto, botones, etiquetas)
+  ['@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2', 'assets/fonts/instrument-serif.woff2'],
+  ['@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2', 'assets/fonts/instrument-serif-italic.woff2'],
+  ['@fontsource-variable/geist/files/geist-latin-wght-normal.woff2', 'assets/fonts/geist-variable.woff2'],
 ];
 
 for (const [from, to] of copies) {
@@ -62,6 +60,6 @@ await build({
   outfile: join(site, 'lib/three.bundle.min.js'),
 });
 
-for (const f of ['lib/gsap.min.js', 'lib/ScrollTrigger.min.js', 'lib/lenis.min.js', 'lib/three.bundle.min.js', 'assets/fonts/bricolage-variable.woff2', 'assets/fonts/zilla-slab-700.woff2']) {
+for (const f of ['lib/gsap.min.js', 'lib/ScrollTrigger.min.js', 'lib/lenis.min.js', 'lib/three.bundle.min.js', 'assets/fonts/instrument-serif.woff2', 'assets/fonts/geist-variable.woff2']) {
   console.log(f.padEnd(34), (statSync(join(site, f)).size / 1024).toFixed(1), 'KB');
 }
