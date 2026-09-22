@@ -236,7 +236,7 @@
       hp.absarc(Math.cos(wa) * R * 0.56, Math.sin(wa) * R * 0.56, R * 0.17, 0, TAU, true);
       s.holes.push(hp);
     }
-    var g = new T.ExtrudeGeometry(s, { depth: depth, bevelEnabled: true, bevelThickness: 0.03, bevelSize: 0.025, bevelSegments: 2, curveSegments: 20 });
+    var g = new T.ExtrudeGeometry(s, { depth: depth, bevelEnabled: true, bevelThickness: 0.03, bevelSize: 0.025, bevelSegments: 1, curveSegments: 12 });
     g.translate(0, 0, -depth / 2);
     g.computeVertexNormals();
     return { geometry: g, pitchRadius: R, teeth: z };

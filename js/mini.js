@@ -71,6 +71,8 @@
       list[2].mesh.rotation.z = th2 + turn * z0 / z2;
       group.rotation.y = 0.5 + Math.sin(t * 0.3) * 0.08;
     });
+    // Compila los shaders ya (en un momento de reposo), no al llegar a la sección con el scroll.
+    stage.renderer.compile(scene, camera);
     return stage;
   }
 
@@ -112,37 +114,46 @@
 
     // Encuadre calculado: se recorren todas las posiciones posibles de la llave y la cámara
     // se coloca para que el conjunto entero quepa siempre dentro del lienzo (nunca se corta).
-    var corner = new T.Vector3(), probe = new T.Vector3();
-    function collect(out) {
-      rig.updateMatrixWorld(true);
-      rig.traverse(function (o) {
-        if (!o.isMesh) return;
-        // Vértices reales (uno de cada varios): contorno ajustado, sin el margen de una caja envolvente.
-        var pos = o.geometry.attributes.position;
-        var step = Math.max(1, Math.floor(pos.count / 400));
-        for (var i = 0; i < pos.count; i += step) {
-          corner.fromBufferAttribute(pos, i).applyMatrix4(o.matrixWorld);
-          out.push(corner.clone());
-        }
-      });
-    }
+    var probe = new T.Vector3();
     function pose(turn, mx, my) {
       keyPivot.rotation.z = turn;
       boltSpin.rotation.z = turn;
       rig.rotation.x = BASE_X + my * TILT_X;
       rig.rotation.y = mx * TILT_Y;
     }
-    var viewDir = new T.Vector3(0, 0.6, 9).normalize();
-    function fit() {
-      var pts = [];
-      for (var tz = TURN_MIN - WOBBLE; tz <= TURN_MIN + TURN_RANGE + WOBBLE + 0.001; tz += 0.08) {
-        for (var mx = -1; mx <= 1; mx++) for (var my = -1; my <= 1; my++) { pose(tz, mx, my); collect(pts); }
+    // Las posiciones de la llave no dependen del tamaño del lienzo: se calculan una sola vez
+    // (una muestra de vértices reales de cada pieza en cada postura) y al redimensionar solo
+    // se recalcula la distancia de la cámara.
+    var pts = null, center = null;
+    function sample() {
+      var parts = [];
+      rig.traverse(function (o) {
+        if (!o.isMesh) return;
+        var pos = o.geometry.attributes.position;
+        var step = Math.max(1, Math.floor(pos.count / 140));
+        var local = [];
+        for (var i = 0; i < pos.count; i += step) local.push(new T.Vector3().fromBufferAttribute(pos, i));
+        parts.push({ mesh: o, local: local });
+      });
+      pts = [];
+      for (var tz = TURN_MIN - WOBBLE; tz <= TURN_MIN + TURN_RANGE + WOBBLE + 0.001; tz += 0.16) {
+        for (var mx = -1; mx <= 1; mx++) for (var my = -1; my <= 1; my++) {
+          pose(tz, mx, my);
+          rig.updateMatrixWorld(true);
+          parts.forEach(function (part) {
+            part.local.forEach(function (v) { pts.push(v.clone().applyMatrix4(part.mesh.matrixWorld)); });
+          });
+        }
       }
       var min = new T.Vector3(Infinity, Infinity, Infinity), max = new T.Vector3(-Infinity, -Infinity, -Infinity);
       pts.forEach(function (p) { min.min(p); max.max(p); });
-      var center = min.clone().add(max).multiplyScalar(0.5);
+      center = min.add(max).multiplyScalar(0.5);
+    }
+    var viewDir = new T.Vector3(0, 0.6, 9).normalize();
+    function fit() {
+      if (!pts) sample();
       var dist = 10;
-      for (var k = 0; k < 6; k++) {
+      for (var k = 0; k < 5; k++) {
         camera.position.copy(center).addScaledVector(viewDir, dist);
         camera.lookAt(center);
         camera.updateMatrixWorld(true);
@@ -172,6 +183,7 @@
       turn += (target - turn) * Math.min(1, dt * 5);
       pose(turn, Math.max(-1, Math.min(1, mouseS.x)), Math.max(-1, Math.min(1, mouseS.y)));
     });
+    stage.renderer.compile(scene, camera);
     return stage;
   }
 

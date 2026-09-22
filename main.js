@@ -3,7 +3,7 @@
 (function () {
   "use strict";
 
-  var VER = "2026092202";
+  var VER = "2026092203";
   var ns = (window.__JLC__ = window.__JLC__ || {});
   var root = document.documentElement;
   var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -311,20 +311,33 @@
     if (ns.updateNav) ns.updateNav();
   }
 
+  // Las escenas 3D pequeñas (llave y engranajes) se construyen en momentos de reposo nada más
+  // cargar, y no al llegar a su sección: construirlas en pleno scroll daba tirones de 200 a 400 ms.
   function initMiniStages() {
     if (!ns.mini) return;
-    $$("[data-stage]").forEach(function (el) {
+    var queue = $$("[data-stage]");
+    var idle = window.requestIdleCallback || function (fn) { return setTimeout(fn, 250); };
+    function build(el) {
+      if (!el || el.getAttribute("data-built")) return;
+      el.setAttribute("data-built", "1");
       var kind = el.getAttribute("data-stage");
+      safe(function () {
+        if (kind === "gears") ns.mini.gears(el, { reduced: reduced });
+        if (kind === "wrench") ns.mini.wrench(el, { reduced: reduced });
+      }, "mini-" + kind);
+    }
+    // Red de seguridad: si alguien llega muy rápido, se construye con margen de sobra.
+    queue.forEach(function (el) {
       var io = new IntersectionObserver(function (entries) {
-        if (!entries[0].isIntersecting) return;
-        io.disconnect();
-        safe(function () {
-          if (kind === "gears") ns.mini.gears(el, { reduced: reduced });
-          if (kind === "wrench") ns.mini.wrench(el, { reduced: reduced });
-        }, "mini-" + kind);
-      }, { rootMargin: "400px 0px" });
+        if (entries[0].isIntersecting) { io.disconnect(); build(el); }
+      }, { rootMargin: "1400px 0px" });
       io.observe(el);
     });
+    var i = 0;
+    (function next() {
+      if (i >= queue.length) return;
+      idle(function () { build(queue[i++]); setTimeout(next, 300); }, { timeout: 2500 });
+    })();
   }
 
   function init3D() {
