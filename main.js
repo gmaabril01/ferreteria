@@ -3,7 +3,7 @@
 (function () {
   "use strict";
 
-  var VER = "2026092301";
+  var VER = "2026092302";
   var ns = (window.__JLC__ = window.__JLC__ || {});
   var root = document.documentElement;
   var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;

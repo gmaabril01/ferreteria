@@ -19,6 +19,9 @@ const copies = [
   ['@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2', 'assets/fonts/instrument-serif-italic.woff2'],
   ['@fontsource-variable/geist/files/geist-latin-wght-normal.woff2', 'assets/fonts/geist-variable.woff2'],
   ['@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2', 'assets/fonts/geist-mono-variable.woff2'],
+  // Barlow Condensed: la línea fuerte de cada titular
+  ['@fontsource/barlow-condensed/files/barlow-condensed-latin-700-normal.woff2', 'assets/fonts/barlow-condensed-700.woff2'],
+  ['@fontsource/barlow-condensed/files/barlow-condensed-latin-800-normal.woff2', 'assets/fonts/barlow-condensed-800.woff2'],
 ];
 
 for (const [from, to] of copies) {
