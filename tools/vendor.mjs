@@ -18,6 +18,7 @@ const copies = [
   ['@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2', 'assets/fonts/instrument-serif.woff2'],
   ['@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2', 'assets/fonts/instrument-serif-italic.woff2'],
   ['@fontsource-variable/geist/files/geist-latin-wght-normal.woff2', 'assets/fonts/geist-variable.woff2'],
+  ['@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2', 'assets/fonts/geist-mono-variable.woff2'],
 ];
 
 for (const [from, to] of copies) {

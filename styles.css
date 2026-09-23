@@ -9,6 +9,12 @@
 /* Instrument Serif: la voz editorial (titulares, eslogan, teléfonos, reseñas) */
 @font-face { font-family: "Instrument Serif"; src: url("assets/fonts/instrument-serif.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: "Instrument Serif"; src: url("assets/fonts/instrument-serif-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+/* Geist Mono: datos con precisión (códigos RAL, horario, mapa) */
+@font-face {
+  font-family: "Geist Mono";
+  src: url("assets/fonts/geist-mono-variable.woff2") format("woff2-variations"), url("assets/fonts/geist-mono-variable.woff2") format("woff2");
+  font-weight: 100 900; font-style: normal; font-display: swap;
+}
 /* Geist: texto, botones y etiquetas (peso variable) */
 @font-face {
   font-family: "Geist";
@@ -49,6 +55,7 @@
 
   --font: "Geist", "Segoe UI", system-ui, -apple-system, sans-serif;
   --font-serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --wide: 100%;
   --semi-wide: 100%;
   --condensed: 100%;
@@ -1096,3 +1103,43 @@ html.lenis, html.lenis body { height: auto; }
   .cat-strip .cat-code { letter-spacing: 0.08em; white-space: nowrap; }
   .cat-strip .cat-tone { display: none; }
 }
+
+/* =============================================================
+   12. Tres voces con papeles claros: serif (voz), sans (lectura), mono (datos)
+   ============================================================= */
+/* Entradilla de cada sección: cursiva serif, no repite la voz del cuerpo */
+.section-lead, .contacto .section-lead {
+  font-family: var(--font-serif); font-style: italic; font-weight: 400;
+  font-size: clamp(1.25rem, 1.05rem + 0.7vw, 1.75rem); line-height: 1.35;
+  letter-spacing: 0; color: #cfc7bd; max-width: 38ch;
+}
+.contacto .section-lead { color: #efd8d0; }
+
+/* Datos: códigos, horas y referencias del mapa en monoespaciada */
+.cota span, .cat-code, .cat-tone, .dia-horas, .regla-escala span, .regla-ahora span, .mapa-escala {
+  font-family: var(--font-mono); font-weight: 500; letter-spacing: 0.06em;
+}
+.cota span { font-size: 0.68rem; letter-spacing: 0.12em; }
+.cat-code { font-weight: 600; }
+.dia-horas { font-size: 0.92rem; letter-spacing: 0.01em; }
+.regla-escala span { font-size: 0.72rem; letter-spacing: 0; }
+.mapa-ref text, .mapa-escala { font-size: 0.68rem; }
+
+/* «Sobre nosotros»: capitular, como en una página impresa */
+.nosotros-text::first-letter {
+  float: left; font-family: var(--font-serif); font-weight: 400;
+  font-size: 4.1em; line-height: 0.78; margin: 0.06em 0.09em 0 0;
+  color: var(--red-ink);
+}
+
+/* Reseñas: comilla de apertura en serif, discreta */
+.resena blockquote { position: relative; }
+.resena blockquote::before {
+  content: "\201C"; display: block; margin: -0.7rem 0 -2rem -0.1rem;
+  font-family: var(--font-serif); font-size: 3.6rem; line-height: 1;
+  color: rgba(236, 232, 225, 0.22);
+}
+.resena blockquote p { position: relative; }
+
+/* Nombres de tienda y de categoría: filete fino encima, como una ficha de catálogo */
+.cat-body h3, .tienda-body h3 { padding-top: 0.9rem; border-top: var(--hair) solid var(--line-strong); }
