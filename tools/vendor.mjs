@@ -36,16 +36,17 @@ import {
   WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, Object3D, Vector2, Vector3, Color, BufferAttribute,
   MathUtils, BoxGeometry, CylinderGeometry, LatheGeometry, TubeGeometry, ExtrudeGeometry, PlaneGeometry, Shape, Path,
   Curve, MeshStandardMaterial, MeshPhysicalMaterial, MeshBasicMaterial, DirectionalLight, HemisphereLight,
-  PMREMGenerator, ACESFilmicToneMapping, SRGBColorSpace, CanvasTexture
+  PMREMGenerator, ACESFilmicToneMapping, SRGBColorSpace, CanvasTexture, TorusGeometry, CatmullRomCurve3
 } from 'three';
+import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 window.THREE = {
   WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, Object3D, Vector2, Vector3, Color, BufferAttribute,
   MathUtils, BoxGeometry, CylinderGeometry, LatheGeometry, TubeGeometry, ExtrudeGeometry, PlaneGeometry, Shape, Path,
   Curve, MeshStandardMaterial, MeshPhysicalMaterial, MeshBasicMaterial, DirectionalLight, HemisphereLight,
-  PMREMGenerator, ACESFilmicToneMapping, SRGBColorSpace, CanvasTexture,
-  RoomEnvironment, mergeGeometries
+  PMREMGenerator, ACESFilmicToneMapping, SRGBColorSpace, CanvasTexture, TorusGeometry, CatmullRomCurve3,
+  RoundedBoxGeometry, RoomEnvironment, mergeGeometries
 };
 `;
 

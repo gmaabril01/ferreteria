@@ -243,40 +243,6 @@
   }
 
   // Llave combinada: boca fija en un extremo, estrella en el otro.
-  function wrenchGeometry() {
-    var parts = [];
-    var d = 0.16;
-    var handle = new T.Shape();
-    handle.moveTo(-1.55, -0.2); handle.lineTo(1.55, -0.16); handle.lineTo(1.55, 0.16); handle.lineTo(-1.55, 0.2); handle.closePath();
-    parts.push(new T.ExtrudeGeometry(handle, { depth: d, bevelEnabled: true, bevelThickness: 0.04, bevelSize: 0.04, bevelSegments: 3 }));
-
-    // Boca abierta (forma de «C»), girada 15°.
-    var open = new T.Shape();
-    var cx = 2.0, R = 0.62, r = 0.3, gap = 0.62, rot = 0.26;
-    var a0 = gap + rot, a1 = TAU - gap + rot;
-    open.absarc(cx, 0, R, a0, a1, false);
-    open.lineTo(cx + Math.cos(a1) * r * 1.05, Math.sin(a1) * r * 1.05);
-    open.absarc(cx, 0, r, a1, a0, true);
-    open.closePath();
-    parts.push(new T.ExtrudeGeometry(open, { depth: d, bevelEnabled: true, bevelThickness: 0.04, bevelSize: 0.04, bevelSegments: 3, curveSegments: 28 }));
-
-    // Estrella (anillo) en el otro extremo.
-    var ring = new T.Shape(); ring.absarc(-2.0, 0, 0.55, 0, TAU, false);
-    var hole = new T.Path();
-    for (var i = 0; i <= 12; i++) {
-      var a = i / 12 * TAU, rr = i % 2 ? 0.25 : 0.3;
-      if (i === 0) hole.moveTo(-2.0 + Math.cos(a) * rr, Math.sin(a) * rr); else hole.lineTo(-2.0 + Math.cos(a) * rr, Math.sin(a) * rr);
-    }
-    ring.holes.push(hole);
-    parts.push(new T.ExtrudeGeometry(ring, { depth: d, bevelEnabled: true, bevelThickness: 0.04, bevelSize: 0.04, bevelSegments: 3, curveSegments: 28 }));
-
-    var g = T.mergeGeometries(parts.map(function (p) { return p.index ? p.toNonIndexed() : p; }), false);
-    g.translate(0, 0, -d / 2);
-    g.computeVertexNormals();
-    return g;
-  }
-
-  // ---------- Sombra de contacto suave (textura radial) ----------
   function blobShadow(size, strength) {
     var c = document.createElement("canvas");
     c.width = c.height = 128;
@@ -307,7 +273,6 @@
     nutGeometry: nutGeometry,
     washerGeometry: washerGeometry,
     gearGeometry: gearGeometry,
-    wrenchGeometry: wrenchGeometry,
     blobShadow: blobShadow,
     rng: rng,
     wake: wake

@@ -3,7 +3,7 @@
 (function () {
   "use strict";
 
-  var VER = "2026092408";
+  var VER = "2026092410";
   var ns = (window.__JLC__ = window.__JLC__ || {});
   var root = document.documentElement;
   var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -304,7 +304,7 @@
       var kind = el.getAttribute("data-stage");
       safe(function () {
         if (kind === "gears") ns.mini.gears(el, { reduced: reduced });
-        if (kind === "wrench") ns.mini.wrench(el, { reduced: reduced });
+        if (kind === "caja") ns.mini.toolbox(el, { reduced: reduced });
       }, "mini-" + kind);
     }
     // Red de seguridad: si alguien llega muy rápido, se construye con margen de sobra.

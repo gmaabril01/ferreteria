@@ -76,116 +76,131 @@
     return stage;
   }
 
-  // ---------- Llave apretando un perno ----------
-  function wrench(el, opts) {
-    var stage = core.createStage(el, { fov: 30, exposure: 1.1, envIntensity: 1.1 });
+  // ---------- Caja de herramientas ----------
+  // Cerrada, en el rojo y el cromo de la marca. Gira despacio con el scroll: no se abre.
+  function toolbox(el, opts) {
+    var stage = core.createStage(el, { fov: 28, exposure: 1.02, envIntensity: 1.05 });
     var scene = stage.scene, camera = stage.camera;
     var m = core.materials();
-    core.workshopLights(scene, { key: 2.6, rim: 1.6, fill: 0.5 });
+    core.workshopLights(scene, { key: 2.5, rim: 1.9, fill: 0.55 });
 
-    var rig = new T.Group();
-    rig.rotation.set(-0.7, 0, 0);
-    scene.add(rig);
+    var ALTO = 1.15, ANCHO = 2.9, FONDO = 1.25;
+    var EJE = 0.95;                       // altura del eje de giro: el centro de la caja
 
-    // Perno vertical con su tuerca; la boca de la llave abraza la cabeza del perno.
-    var bolt = new T.Mesh(core.boltGeometry({ length: 1.6, radius: 0.19 }), m.zinc);
-    bolt.rotation.x = PI / 2;
-    var nut = new T.Mesh(core.nutGeometry({ size: 0.4 }), m.brass);
-    nut.rotation.x = PI / 2;
-    nut.position.z = -0.5;
-    var boltSpin = new T.Group();
-    boltSpin.add(bolt, nut);
-    rig.add(boltSpin);
+    // Todo cuelga de un pivote puesto en el centro, para que al girar no se descoloque.
+    var pivote = new T.Group();
+    pivote.position.y = EJE;
+    scene.add(pivote);
+    var caja = new T.Group();
+    caja.position.y = -EJE;
+    pivote.add(caja);
 
-    var key = new T.Mesh(core.wrenchGeometry(), m.chrome);
-    key.position.set(-2.0, 0, 0.8);
-    var keyPivot = new T.Group();
-    keyPivot.add(key);
-    keyPivot.position.set(0, 0, 0);
-    rig.add(keyPivot);
-
-    var plate = new T.Mesh(new T.CylinderGeometry(0.85, 0.85, 0.06, 48), m.darkMetal);
-    plate.rotation.x = PI / 2;
-    plate.position.z = -0.95;
-    rig.add(plate);
-
-    // Recorrido completo de la llave: giro por scroll + balanceo + inclinación por ratón.
-    var TURN_MIN = 0.35, TURN_RANGE = 1.5, WOBBLE = 0.04, TILT_X = 0.12, TILT_Y = 0.25, BASE_X = -0.7;
-
-    // Encuadre calculado: se recorren todas las posiciones posibles de la llave y la cámara
-    // se coloca para que el conjunto entero quepa siempre dentro del lienzo (nunca se corta).
-    var probe = new T.Vector3();
-    function pose(turn, mx, my) {
-      keyPivot.rotation.z = turn;
-      boltSpin.rotation.z = turn;
-      rig.rotation.x = BASE_X + my * TILT_X;
-      rig.rotation.y = mx * TILT_Y;
+    function bloque(w, h, d, r, mat) {
+      return new T.Mesh(new T.RoundedBoxGeometry(w, h, d, 3, r), mat);
     }
-    // Las posiciones de la llave no dependen del tamaño del lienzo: se calculan una sola vez
-    // (una muestra de vértices reales de cada pieza en cada postura) y al redimensionar solo
-    // se recalcula la distancia de la cámara.
-    var pts = null, center = null;
-    function sample() {
-      var parts = [];
-      rig.traverse(function (o) {
-        if (!o.isMesh) return;
-        var pos = o.geometry.attributes.position;
-        var step = Math.max(1, Math.floor(pos.count / 140));
-        var local = [];
-        for (var i = 0; i < pos.count; i += step) local.push(new T.Vector3().fromBufferAttribute(pos, i));
-        parts.push({ mesh: o, local: local });
-      });
-      pts = [];
-      for (var tz = TURN_MIN - WOBBLE; tz <= TURN_MIN + TURN_RANGE + WOBBLE + 0.001; tz += 0.16) {
-        for (var mx = -1; mx <= 1; mx++) for (var my = -1; my <= 1; my++) {
-          pose(tz, mx, my);
-          rig.updateMatrixWorld(true);
-          parts.forEach(function (part) {
-            part.local.forEach(function (v) { pts.push(v.clone().applyMatrix4(part.mesh.matrixWorld)); });
-          });
-        }
+
+    // Cuerpo y tapa
+    var cuerpo = bloque(ANCHO, ALTO, FONDO, 0.1, m.redPaint);
+    cuerpo.position.y = ALTO / 2;
+    caja.add(cuerpo);
+
+    var junta = bloque(ANCHO * 1.004, 0.16, FONDO * 1.004, 0.05, m.darkMetal);
+    junta.position.y = ALTO - 0.02;
+    caja.add(junta);
+
+    var tapa = bloque(ANCHO * 1.012, 0.36, FONDO * 1.012, 0.11, m.redPaint);
+    tapa.position.y = ALTO + 0.2;
+    caja.add(tapa);
+
+    var bisagra = new T.Mesh(new T.CylinderGeometry(0.038, 0.038, ANCHO * 0.82, 14), m.chrome);
+    bisagra.rotation.z = PI / 2;
+    bisagra.position.set(0, ALTO + 0.03, -FONDO / 2 + 0.07);
+    caja.add(bisagra);
+
+    // Asa curvada sobre la tapa, con sus dos anclajes
+    var curva = new T.CatmullRomCurve3([
+      new T.Vector3(-0.66, 0, 0), new T.Vector3(-0.68, 0.3, 0),
+      new T.Vector3(0, 0.46, 0),
+      new T.Vector3(0.68, 0.3, 0), new T.Vector3(0.66, 0, 0)
+    ]);
+    var asa = new T.Mesh(new T.TubeGeometry(curva, 56, 0.058, 12, false), m.chrome);
+    asa.position.y = ALTO + 0.36;
+    caja.add(asa);
+    [-0.66, 0.66].forEach(function (x) {
+      var anclaje = bloque(0.24, 0.12, 0.3, 0.04, m.darkMetal);
+      anclaje.position.set(x, ALTO + 0.37, 0);
+      caja.add(anclaje);
+    });
+
+    // Cierres cromados en el frente
+    [-0.92, 0.92].forEach(function (x) {
+      var chapa = bloque(0.34, 0.24, 0.07, 0.04, m.chrome);
+      chapa.position.set(x, ALTO + 0.06, FONDO / 2 + 0.015);
+      caja.add(chapa);
+      var gancho = bloque(0.18, 0.36, 0.06, 0.03, m.chrome);
+      gancho.position.set(x, ALTO - 0.14, FONDO / 2 + 0.035);
+      caja.add(gancho);
+    });
+
+    // Nervio grabado en el frente y los pies
+    var nervio = bloque(ANCHO * 0.72, 0.1, 0.05, 0.03, m.redSoft);
+    nervio.position.set(0, ALTO * 0.42, FONDO / 2 + 0.01);
+    caja.add(nervio);
+    [[-1.18, 0.46], [1.18, 0.46], [-1.18, -0.46], [1.18, -0.46]].forEach(function (p) {
+      var pie = new T.Mesh(new T.CylinderGeometry(0.11, 0.11, 0.08, 12), m.blackPlastic);
+      pie.position.set(p[0], 0.04, p[1]);
+      caja.add(pie);
+    });
+
+    // La sombra se queda en el suelo: no acompaña al giro de la caja.
+    var sombra = core.blobShadow(4.6, 0.55);
+    sombra.position.y = 0.008;
+    sombra.scale.set(1, 1.35, 1);
+    scene.add(sombra);
+
+    // Encuadre: como la caja gira sobre su centro, basta con la esfera que la envuelve.
+    caja.updateMatrixWorld(true);
+    var centro = new T.Vector3(0, 0, 0), v = new T.Vector3(), radio = 0;
+    caja.traverse(function (o) {
+      if (!o.isMesh) return;
+      var pos = o.geometry.attributes.position;
+      var paso = Math.max(1, Math.floor(pos.count / 120));
+      for (var i = 0; i < pos.count; i += paso) {
+        v.fromBufferAttribute(pos, i).applyMatrix4(o.matrix).add(caja.position);
+        radio = Math.max(radio, v.distanceTo(centro));
       }
-      var min = new T.Vector3(Infinity, Infinity, Infinity), max = new T.Vector3(-Infinity, -Infinity, -Infinity);
-      pts.forEach(function (p) { min.min(p); max.max(p); });
-      center = min.add(max).multiplyScalar(0.5);
-    }
-    var viewDir = new T.Vector3(0, 0.6, 9).normalize();
+    });
+
+    var mira = new T.Vector3(0, EJE, 0);
+    var dir = new T.Vector3(0.36, 0.42, 1).normalize();
     function fit() {
-      if (!pts) sample();
-      var dist = 10;
-      for (var k = 0; k < 5; k++) {
-        camera.position.copy(center).addScaledVector(viewDir, dist);
-        camera.lookAt(center);
-        camera.updateMatrixWorld(true);
-        var reach = 0;
-        for (var i = 0; i < pts.length; i++) {
-          probe.copy(pts[i]).project(camera);
-          reach = Math.max(reach, Math.abs(probe.x), Math.abs(probe.y));
-        }
-        dist *= reach / 0.9;
-      }
+      var mitadV = camera.fov * PI / 360;
+      var mitadH = Math.atan(Math.tan(mitadV) * camera.aspect);
+      var d = radio * 1.02 / Math.sin(Math.min(mitadV, mitadH));
+      camera.position.copy(mira).addScaledVector(dir, d);
+      camera.lookAt(mira);
       camera.updateMatrixWorld(true);
-      pose(turn, mouseS.x, mouseS.y);
     }
-
-    var mouse = new T.Vector2(), mouseS = new T.Vector2();
-    window.addEventListener("pointermove", function (e) {
-      mouse.set(e.clientX / window.innerWidth * 2 - 1, e.clientY / window.innerHeight * 2 - 1);
-    }, { passive: true });
-
-    var turn = TURN_MIN;
     fit();
     stage.onResize = fit;
+
+    var raton = new T.Vector2(), suave = new T.Vector2();
+    window.addEventListener("pointermove", function (e) {
+      raton.set(e.clientX / window.innerWidth * 2 - 1, e.clientY / window.innerHeight * 2 - 1);
+    }, { passive: true });
+
+    var giro = -0.5;
     stage.onFrame(function (t, dt) {
-      mouseS.lerp(mouse, Math.min(1, dt * 2.5));
+      suave.lerp(raton, Math.min(1, dt * 2.5));
       var p = scrollProgress(el);
-      var target = TURN_MIN + p * TURN_RANGE + Math.sin(t * 0.6) * (opts && opts.reduced ? 0 : WOBBLE);
-      turn += (target - turn) * Math.min(1, dt * 5);
-      pose(turn, Math.max(-1, Math.min(1, mouseS.x)), Math.max(-1, Math.min(1, mouseS.y)));
+      var objetivo = -0.55 + p * 1.05 + (opts && opts.reduced ? 0 : Math.sin(t * 0.35) * 0.03);
+      giro += (objetivo - giro) * Math.min(1, dt * 4);
+      pivote.rotation.y = giro + Math.max(-1, Math.min(1, suave.x)) * 0.16;
+      pivote.rotation.x = -0.03 + Math.max(-1, Math.min(1, suave.y)) * 0.05;
     });
     stage.renderer.compile(scene, camera);
     return stage;
   }
 
-  ns.mini = { gears: gears, wrench: wrench };
+  ns.mini = { gears: gears, toolbox: toolbox };
 })();

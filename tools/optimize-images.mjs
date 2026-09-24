@@ -47,10 +47,17 @@ for (const [src, slug] of Object.entries(PHOTOS)) {
 }
 writeFileSync(join(here, 'img-manifest.json'), JSON.stringify(manifest, null, 2));
 
-// ---- Logo: fondo blanco -> transparente (relleno desde los bordes) ----
+// ---- Logo: fondo -> transparente (relleno desde los bordes) ----
+// El original viene con el damero de transparencia pintado encima (blancos y grises muy
+// claros), así que se considera fondo todo lo que sea claro y neutro; el filete plateado
+// del logotipo es bastante más oscuro y detiene el relleno.
 const { data, info } = await sharp(join(root, 'LOGO.png')).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
 const W = info.width, H = info.height;
-const isBgish = (i) => data[i] > 238 && data[i + 1] > 238 && data[i + 2] > 238;
+const isBgish = (i) => {
+  const min = Math.min(data[i], data[i + 1], data[i + 2]);
+  const max = Math.max(data[i], data[i + 1], data[i + 2]);
+  return min >= 226 && max - min <= 12;
+};
 const bg = new Uint8Array(W * H);
 const stack = [];
 for (let x = 0; x < W; x++) stack.push(x, (H - 1) * W + x);
@@ -65,6 +72,31 @@ while (stack.length) {
   if (y > 0) stack.push(p - W);
   if (y < H - 1) stack.push(p + W);
 }
+// Los huecos cerrados del logotipo (el interior del trazo rojo) también traen damero, y el
+// relleno de arriba no llega hasta ellos porque el filete los rodea. Se buscan aparte: una
+// mancha clara es damero si sus tonos se agrupan en los dos del tablero (claro y gris) y casi
+// no hay valores intermedios; un brillo del metal, en cambio, es un degradado continuo.
+const visto = new Uint8Array(W * H);
+for (let p0 = 0; p0 < W * H; p0++) {
+  if (bg[p0] || visto[p0] || !isBgish(p0 * 4)) continue;
+  const mancha = [];
+  const cola = [p0];
+  visto[p0] = 1;
+  let claros = 0, grises = 0, medios = 0;
+  while (cola.length) {
+    const p = cola.pop();
+    mancha.push(p);
+    const v = data[p * 4];
+    if (v >= 249) claros++; else if (v <= 243) grises++; else medios++;
+    const x = p % W, y = (p / W) | 0;
+    const vecinos = [x > 0 ? p - 1 : -1, x < W - 1 ? p + 1 : -1, y > 0 ? p - W : -1, y < H - 1 ? p + W : -1];
+    for (const q of vecinos) if (q >= 0 && !visto[q] && !bg[q] && isBgish(q * 4)) { visto[q] = 1; cola.push(q); }
+  }
+  const n = mancha.length;
+  const esDamero = n > 400 && Math.min(claros, grises) / n > 0.2 && medios / n < 0.18;
+  if (esDamero) for (const p of mancha) bg[p] = 1;
+}
+
 for (let p = 0; p < W * H; p++) {
   const i = p * 4;
   if (bg[p]) { data[i + 3] = 0; continue; }
@@ -73,7 +105,7 @@ for (let p = 0; p < W * H; p++) {
   const nearBg = (x > 0 && bg[p - 1]) || (x < W - 1 && bg[p + 1]) || (y > 0 && bg[p - W]) || (y < H - 1 && bg[p + W]);
   if (nearBg) {
     const m = Math.min(data[i], data[i + 1], data[i + 2]);
-    if (m > 200) data[i + 3] = Math.round(255 * (255 - m) / 55);
+    if (m > 214) data[i + 3] = Math.round(255 * Math.min(1, Math.max(0, (240 - m) / 26)));
   }
 }
 const logo = sharp(data, { raw: { width: W, height: H, channels: 4 } }).trim();

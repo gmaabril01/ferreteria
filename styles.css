@@ -152,14 +152,17 @@ h1, h2, h3 { text-wrap: balance; font-weight: 800; line-height: 1.02; letter-spa
    ============================================================= */
 
 /* Cinta métrica de progreso */
+/* Opaca a propósito: si la cinta deja ver la página por debajo parece que la web
+   está cortada por arriba. Va pegada a la barra de navegación, sin junta. */
 .tape {
   position: fixed; inset: 0 0 auto 0; height: 7px; z-index: 60; pointer-events: none;
   background:
     repeating-linear-gradient(90deg, rgba(234,237,242,.42) 0 var(--hair), transparent var(--hair) 40px) 0 0 / 100% 7px no-repeat,
-    repeating-linear-gradient(90deg, rgba(234,237,242,.22) 0 var(--hair), transparent var(--hair) 8px) 0 0 / 100% 3px no-repeat;
+    repeating-linear-gradient(90deg, rgba(234,237,242,.22) 0 var(--hair), transparent var(--hair) 8px) 0 0 / 100% 3px no-repeat,
+    linear-gradient(var(--fondeo), var(--fondeo));
 }
 .tape-fill {
-  height: 100%; background: var(--red); opacity: 0.9;
+  height: 100%; background: var(--red);
   transform-origin: left; transform: scaleX(var(--progress, 0));
 }
 
@@ -358,10 +361,22 @@ html.js .is-in .cota, html.js .cota.is-in { --cota: 1; }
 }
 .hero-copy { position: relative; z-index: 2; max-width: 780px; }
 .hero-brand { display: flex; align-items: center; gap: clamp(14px, 1.8vw, 26px); }
+/* El logotipo de la portada, en relieve: una pila de sombras duras dibuja el canto de acero
+   y una blanda lo apoya sobre el fondo. Postura fija: ni se anima ni cambia de tamaño. */
 .hero-logo {
+  --canto: 1px;
   width: clamp(88px, 11vw, 164px); flex: none;
-  filter: drop-shadow(0 14px 26px rgba(0,0,0,.5));
+  transform: perspective(820px) rotateY(-8deg) rotateX(3deg) scale(1.05);
+  transform-origin: 62% 50%;
+  filter:
+    drop-shadow(var(--canto) var(--canto) 0 #5c6878)
+    drop-shadow(var(--canto) var(--canto) 0 #5c6878)
+    drop-shadow(var(--canto) var(--canto) 0 #4e5967)
+    drop-shadow(var(--canto) var(--canto) 0 #414b57)
+    drop-shadow(var(--canto) var(--canto) 0 #353e49)
+    drop-shadow(0 18px 26px rgba(0,0,0,.6));
 }
+@media (max-width: 539px) { .hero-logo { --canto: 0.6px; } }
 .hero-title { display: grid; gap: 0.4rem; min-width: 0; }
 .hero-slogan { margin-top: clamp(26px, 4.5vh, 54px); }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: clamp(24px, 4vh, 40px); }
@@ -782,7 +797,7 @@ html.js .regla:not(.is-in) .dia-barra { transform: scaleX(0); }
 .redes svg { width: 20px; height: 20px; }
 .stage { position: relative; width: 100%; }
 .stage canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
-.stage--wrench { min-height: 260px; height: min(34vh, 300px); }
+.stage--caja { min-height: 270px; height: min(38vh, 330px); }
 .contacto-side { position: relative; z-index: 1; display: grid; align-content: center; }
 
 /* Ficha de atención: la llave deja de flotar en medio del campo rojo y pasa a ser la

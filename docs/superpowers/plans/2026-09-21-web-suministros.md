@@ -328,3 +328,19 @@ cookies antes de publicar en el dominio definitivo.
 13. **La llave dejó de flotar**: la columna derecha de «Contacto» es ahora una ficha con su cota
     rotulada, la llave dentro, el WhatsApp al doble de tamaño y si está abierto ahora mismo (el dato
     sale del mismo `js/horario.js` que la sección de horario).
+
+### Tercera vuelta de la revisión (24-09-2026)
+
+14. **La cinta de progreso ya no es transparente**: dejaba ver la página por debajo y en el móvil
+    parecía que la web estaba cortada por arriba. Ahora es un raíl opaco pegado a la barra.
+15. **Caja de herramientas en vez de la llave** en «Contacto»: cerrada, en el rojo y el cromo de la
+    marca, girando despacio con el scroll (no se abre). `js/mini.js` cambia `wrench` por `toolbox`;
+    vuelven al paquete de Three.js `RoundedBoxGeometry`, `TorusGeometry` y `CatmullRomCurve3`, y sale
+    `wrenchGeometry` de `js/three-core.js`. El encuadre se calcula con la esfera que envuelve la caja:
+    como gira sobre su centro, el radio no cambia y la cámara nunca la corta.
+16. **Logotipo nuevo** en toda la web. El original venía con el damero de transparencia pintado
+    encima, así que `optimize-images.mjs` lo limpia en dos pasos: relleno desde los bordes para el
+    fondo y, para los huecos cerrados del trazo, una prueba de «¿esto es damero?» (los tonos se
+    agrupan en los dos del tablero y casi no hay valores intermedios, cosa que un brillo del metal
+    no cumple). En la portada va en relieve, con una pila de sombras duras que le hace el canto de
+    acero y una postura fija: ni se anima ni cambia de tamaño.
