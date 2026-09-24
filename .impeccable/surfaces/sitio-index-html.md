@@ -9,7 +9,7 @@ related_targets: []
 
 Mode: Persuade. Audience: homeowners and trade professionals in Lanzarote, equally.
 Job: find the right store, hours and phone; trust the range. Primary action: call, WhatsApp or get directions.
-Proof on hand: real store photos, three literal Google reviews, 17 supplier brands with their own logos. Never claim services beyond sales + advice.
+Proof on hand: real store photos, three literal Google reviews, 17 supplier brands with their own logos. Never claim services beyond sales + advice, and never mention glass: the company does not deal in it (owner, 2026-09-24).
 
 ## Revisión del cliente (2026-09-24) — qué pinnea ahora el encargo
 
@@ -52,9 +52,9 @@ DESIGN.md, and every shipping raster carrying its provenance
 
 ## Signature interaction and motion grammar
 
-Signature: rotation about a pivot — the gears in "Sobre nosotros" mesh and turn with the scroll, the wrench in
-"Contacto" tightens its bolt, the dimension-line screws turn as the page advances, and every review swings from
-its screw. No generic fade-up entrances; cards wake as they enter, each fx (water, embers, glass) starting with
+Signature: rotation about a pivot — the gears in "Sobre nosotros" mesh and turn with the scroll, the closed
+toolbox in "Contacto" turns slowly on its own centre, the dimension-line screws turn as the page advances, and
+every review swings from its screw. No generic fade-up entrances; cards wake as they enter, each fx (water, embers) starting with
 its card.
 
 ## Unresolved

@@ -497,32 +497,6 @@ html.js .is-in .cota, html.js .cota.is-in { --cota: 1; }
 }
 .is-active .fx-roller { left: 92%; }
 
-/* Detrás del vidrio, un fondo de franjas anchas (tres azules y un solo apunte de rojo):
-   se lee como la calle reflejada, no como un toldo de rayas. */
-.fx-glass { perspective: 900px; background:
-  repeating-linear-gradient(100deg, var(--tono-acero) 0 52px, var(--tono-marino) 52px 104px, var(--basalto) 104px 150px, var(--tono-teja) 150px 196px); }
-.fx-pane {
-  position: absolute; top: 12%; bottom: 12%; width: 46%;
-  border-radius: 6px;
-  background: linear-gradient(125deg, rgba(234,237,242,.22), rgba(234,237,242,.05) 42%, rgba(234,237,242,.12));
-  box-shadow: inset 0 0 0 1px rgba(234,237,242,.35), inset 6px 0 0 rgba(180,196,190,.18), 0 24px 40px -18px rgba(0,0,0,.8);
-  transform: rotateY(-24deg) translateX(var(--shift, 0));
-  transform-origin: left center;
-  transition: transform 1.2s var(--ease-out);
-  overflow: hidden;
-}
-@supports (backdrop-filter: blur(6px)) { .fx-pane { backdrop-filter: blur(5px) saturate(80%); -webkit-backdrop-filter: blur(5px) saturate(80%); } }
-.fx-pane::after {
-  content: ""; position: absolute; inset: -20% -60%;
-  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.35) 48%, transparent 56%);
-  transform: translateX(calc(var(--mx, 0) * 40%));
-}
-.fx-pane--1 { left: 8%; --shift: 0; }
-.fx-pane--2 { left: 30%; --shift: 0; opacity: .85; }
-.fx-pane--3 { left: 52%; --shift: 0; opacity: .7; }
-.fx-glass:not(.is-open) .fx-pane { --shift: 0; }
-.is-active .fx-pane--2 { --shift: 8%; } .is-active .fx-pane--3 { --shift: 16%; }
-
 .fx-door-slats {
   position: absolute; inset: 0;
   background:

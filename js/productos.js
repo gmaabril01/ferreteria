@@ -1,13 +1,11 @@
 /* «Lo que hacemos»: fichas de categoría.
    Cada ficha se despierta al entrar en pantalla y entonces arrancan sus efectos
-   (el agua, las brasas, el vidrio). Sin scroll secuestrado ni secciones fijadas. */
+   (el agua, las brasas). Sin scroll secuestrado ni secciones fijadas. */
 (function () {
   "use strict";
 
   var ns = (window.__JLC__ = window.__JLC__ || {});
   var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
 
   // ---------- Activación por visibilidad ----------
   function mountList(section) {
@@ -20,17 +18,6 @@
   }
 
   // ---------- Efectos que necesitan JS ----------
-  function initGlass(section) {
-    var glass = section.querySelector("[data-glass]");
-    if (!glass || matchMedia("(hover: none)").matches) return;
-    window.addEventListener("pointermove", function (e) {
-      var r = glass.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > innerHeight) return;
-      var mx = clamp((e.clientX - r.left) / r.width * 2 - 1, -1.2, 1.2);
-      glass.style.setProperty("--mx", mx.toFixed(3));
-    }, { passive: true });
-  }
-
   function initEmbers(section) {
     var canvas = section.querySelector("[data-embers]");
     if (!canvas || reduced) return;
@@ -75,7 +62,6 @@
     init: function () {
       var section = document.querySelector("[data-deck-section]");
       if (!section) return;
-      initGlass(section);
       initEmbers(section);
       mountList(section);
     }

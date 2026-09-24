@@ -20,9 +20,9 @@ Their job on the site: decide to go to (or call) the right store, and trust that
 
 ## Product Purpose
 
-One-page website for Suministros José Luis Cabrera S.L., a family hardware, paint and glass supplier.
+One-page website for Suministros José Luis Cabrera S.L., a family hardware and paint supplier.
 Success = visitors find the right location/opening hours and call or get directions; the business ranks for local searches
-(ferretería, pintura, vidrio, piscinas, fontanería, puertas de garaje en Tías / Playa Blanca / Lanzarote).
+(ferretería, pintura, piscinas, fontanería, puertas de garaje en Tías / Playa Blanca / Lanzarote).
 
 ## Positioning
 
@@ -40,8 +40,8 @@ Customers say that if something is missing, they get it for you.
 
 ## Capabilities and Constraints
 
-- Only sales and in-store advice may be claimed. Installation, made-to-measure glass cutting and paint tinting are
-  NOT confirmed — never mention them.
+- The company does NOT deal in glass (confirmed by the owner on 2026-09-24): never mention vidrio, cristal or mamparas.
+- Only sales and in-store advice may be claimed. Installation and paint tinting are NOT confirmed — never mention them.
 - Client-provided texts (Sobre nosotros, three Google reviews) must be reproduced literally.
 - Domain undecided (placeholder suministrosjoseluiscabrera.es). Legal pages (aviso legal, privacidad) out of scope.
 

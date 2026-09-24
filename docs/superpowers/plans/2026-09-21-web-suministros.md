@@ -344,3 +344,11 @@ cookies antes de publicar en el dominio definitivo.
     agrupan en los dos del tablero y casi no hay valores intermedios, cosa que un brillo del metal
     no cumple). En la portada va en relieve, con una pila de sombras duras que le hace el canto de
     acero y una postura fija: ni se anima ni cambia de tamaño.
+
+### El vidrio fuera (24-09-2026)
+
+El dueño avisa de que **la empresa no trabaja el vidrio**. Se quita de toda la web: la ficha de
+«Vidrio» y su efecto de cristales (HTML, CSS y el `initGlass` de `js/productos.js`), la meta
+description, el título y la descripción para redes, y la descripción de la tienda de Tías en los
+datos estructurados. Queda anotado en `PRODUCT.md` y en el contrato de dirección para que no
+vuelva a colarse. El directorio de ocho especialidades no lo mencionaba, así que no cambia.
