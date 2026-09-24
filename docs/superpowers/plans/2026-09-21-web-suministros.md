@@ -311,3 +311,20 @@ El dueño del negocio revisó la web publicada y pidió estos cambios, que se ap
 
 Pendiente que nace de esto: el iframe de Google Maps deja cookies de Google, así que hace falta un aviso de
 cookies antes de publicar en el dominio definitivo.
+
+### Segunda vuelta de la revisión (24-09-2026)
+
+9. **El nombre, de una sola tipografía**: fuera la cursiva de «José Luis Cabrera»; todo en Barlow
+   Condensed en versales, con espacios duros para que nunca parta «José Luis Cabrera S.L.».
+10. **Puertas de garaje**: fuera «Nuestra especialidad»; ahora dice que tienen exposición propia.
+11. **Los tres locales en el mapa**: el iframe gratuito de Google solo admite un marcador (probadas
+    cuatro variantes: `search?api=1` sale en blanco, `maps?q=` sin ciudad muestra el mundo entero y
+    `embed/v1` pide clave de API). Solución: el mapa queda fijo (`ll` + `z` conocidos, sin arrastrar) y
+    `initMapa` coloca los tres locales encima proyectando latitud y longitud con Mercator, la misma
+    proyección que usa Google, así que cada punto cae en su sitio exacto. El rótulo salta al otro lado
+    del punto si no cabe. Coordenadas de Nominatim (OpenStreetMap).
+12. **Entradilla de «Localizaciones»** en Geist, sin cursiva: su titular es de una sola voz y la cursiva
+    ahí no tenía con qué emparejarse.
+13. **La llave dejó de flotar**: la columna derecha de «Contacto» es ahora una ficha con su cota
+    rotulada, la llave dentro, el WhatsApp al doble de tamaño y si está abierto ahora mismo (el dato
+    sale del mismo `js/horario.js` que la sección de horario).

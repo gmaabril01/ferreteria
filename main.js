@@ -3,7 +3,7 @@
 (function () {
   "use strict";
 
-  var VER = "2026092405";
+  var VER = "2026092408";
   var ns = (window.__JLC__ = window.__JLC__ || {});
   var root = document.documentElement;
   var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -164,14 +164,17 @@
   // ---------- Horario ----------
   function initHorario() {
     var api = ns.horario;
-    var status = $("[data-horario-status]");
+    // El mismo dato aparece en «Horario» y en la ficha de contacto.
+    var rotulos = $$("[data-horario-status]");
     var regla = $("[data-horario]");
     var now = $("[data-now]");
-    if (!api || !status || !regla) return;
+    if (!api || !rotulos.length || !regla) return;
     function update() {
       var s = api.getStatus(new Date());
-      status.textContent = api.statusLabel(s);
-      status.classList.toggle("is-open", s.open);
+      rotulos.forEach(function (el) {
+        el.textContent = api.statusLabel(s);
+        el.classList.toggle("is-open", s.open);
+      });
       $$(".dia", regla).forEach(function (li) { li.classList.toggle("is-today", Number(li.getAttribute("data-day")) === s.day); });
       if (now) {
         var inRange = s.minutes >= 420 && s.minutes <= 1020;
@@ -205,6 +208,47 @@
         });
       });
     });
+  }
+
+  // ---------- Mapa ----------
+  // El iframe gratuito de Google solo sabe marcar un sitio, así que el mapa va fijo (centro y
+  // zoom conocidos) y los tres locales se colocan encima. La posición sale de la proyección
+  // de Mercator, la misma que usa Google, así que cada dirección cae en su punto exacto.
+  function initMapa() {
+    var lienzo = $("[data-mapa]");
+    if (!lienzo) return;
+    var centro = lienzo.getAttribute("data-centro").split(",").map(Number);
+    var escala = 256 * Math.pow(2, Number(lienzo.getAttribute("data-zoom")));
+    var pins = $$(".pin", lienzo);
+    if (!pins.length) return;
+
+    function mercatorY(lat) {
+      var s = Math.sin(lat * Math.PI / 180);
+      return 0.5 - Math.log((1 + s) / (1 - s)) / (4 * Math.PI);
+    }
+    var cx = (centro[1] + 180) / 360, cy = mercatorY(centro[0]);
+
+    function colocar() {
+      var w = lienzo.clientWidth, h = lienzo.clientHeight;
+      if (!w || !h) return;
+      pins.forEach(function (p) {
+        var ll = p.getAttribute("data-pin").split(",").map(Number);
+        p.style.setProperty("--x", (w / 2 + ((ll[1] + 180) / 360 - cx) * escala).toFixed(1) + "px");
+        p.style.setProperty("--y", (h / 2 + (mercatorY(ll[0]) - cy) * escala).toFixed(1) + "px");
+        p.classList.add("is-puesto");
+      });
+      // Si el rótulo se sale del lienzo, salta al otro lado del punto.
+      pins.forEach(function (p) {
+        var x = parseFloat(p.style.getPropertyValue("--x"));
+        var ancho = p.offsetWidth;
+        var der = p.classList.contains("pin--der");
+        if (der && x + ancho > w - 4) { p.classList.remove("pin--der"); p.classList.add("pin--izq"); }
+        else if (!der && x - ancho < 4) { p.classList.remove("pin--izq"); p.classList.add("pin--der"); }
+      });
+    }
+    colocar();
+    if (window.ResizeObserver) new ResizeObserver(colocar).observe(lienzo);
+    else addEventListener("resize", colocar);
   }
 
   // ---------- Proveedores ----------
@@ -304,6 +348,7 @@
     safe(initReveals, "initReveals");
     safe(initHorario, "initHorario");
     safe(initGalleries, "initGalleries");
+    safe(initMapa, "initMapa");
     safe(initMarquee, "initMarquee");
     safe(initMagnetic, "initMagnetic");
     safe(function () { if (ns.productos) ns.productos.init(); }, "productos");
