@@ -352,3 +352,12 @@ El dueño avisa de que **la empresa no trabaja el vidrio**. Se quita de toda la 
 description, el título y la descripción para redes, y la descripción de la tienda de Tías en los
 datos estructurados. Queda anotado en `PRODUCT.md` y en el contrato de dirección para que no
 vuelva a colarse. El directorio de ocho especialidades no lo mencionaba, así que no cambia.
+
+### «Lo que hacemos», ordenado (24-09-2026)
+
+El directorio tenía ocho cajitas y la sección siete fichas, y encima no coincidía el orden (la
+primera cajita llevaba a la tercera ficha). Ahora van uno a uno: siete cajitas, siete fichas, el
+mismo orden y el mismo nombre en las dos. Las ocho palabras que dio el cliente siguen todas, pero
+agrupadas como están realmente las fichas («Fontanería y tuberías de PVC», «Fundición y
+construcción»), y se suma «Ferretería», que es el propio oficio de la casa y tiene su foto.
+La última cajita ocupa el hueco que sobra para que ninguna fila quede coja.

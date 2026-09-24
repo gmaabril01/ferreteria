@@ -413,6 +413,8 @@ html.js .is-in .cota, html.js .cota.is-in { --cota: 1; }
   border-radius: 16px; overflow: hidden;
 }
 @media (min-width: 760px) { .directorio ul { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* Son siete: la última ficha ocupa el hueco que sobra para que ninguna fila quede coja. */
+.directorio li:last-child { grid-column: span 2; }
 /* La ficha llena su hueco: si una etiqueta ocupa dos líneas, su vecina crece con ella
    y no asoma la línea del fondo. */
 .directorio li { display: grid; }
