@@ -287,3 +287,27 @@ test('contacto', () => {
 - `prefers-reduced-motion` solo desactiva lo intrusivo (brasas, animaciones infinitas), no la intro ni las microinteracciones.
 - Capturas de revisión con `tools/shots.mjs` (puppeteer-core + Chrome local) porque la emulación del panel
   del navegador no captura bien WebGL a 1440 px.
+
+## Revisión del cliente (24-09-2026)
+
+El dueño del negocio revisó la web publicada y pidió estos cambios, que se aplicaron tal cual:
+
+1. **Nombre completo arriba**: «Suministros José Luis Cabrera S.L.» junto al logo, en la barra y en la portada.
+2. **Fuera la intro 3D**: se quitaron la caja de herramientas que se abría con el scroll y la lluvia de
+   tornillos. La web abre directamente en la portada (`js/intro.js` eliminado; `tools/vendor.mjs` recorta
+   el paquete de Three.js a lo que usan los engranajes y la llave).
+3. **Rótulo de portada**: «Ferretería, pintura y vidrio en Lanzarote» → «Ferretería especializada»
+   (lo que dice el rótulo real de la tienda de Tías).
+4. **Fuera la carta de colores** de «Lo que hacemos»: desaparecen las tiras RAL y el abanico fijado; en su
+   lugar, un directorio de ocho especialidades con las palabras del cliente y las fichas en rejilla.
+5. **«Localizaciones»** en vez de «Nuestras tiendas en Tías y Playa Blanca», con un mapa de Google normal
+   (iframe centrado en Lanzarote) en lugar del mapa SVG dibujado a mano.
+6. **WhatsApp 686 99 60 82** debajo de la llave inglesa, en el pie y en los datos estructurados.
+7. **Azul en lugar de negro**: el picón (#141210) deja paso al azul marino #16202c y toda la rampa de tonos
+   pasa a azules; los rojos de marca se mantienen. Se regeneraron iconos e imagen para redes.
+8. **Logotipos de los proveedores**: las 17 placas llevan el logotipo real de cada marca (tomado de su propia
+   web) sobre placa blanca, con el nombre escrito debajo. Los archivos originales están en `tools/logos-src`
+   y se preparan con `node tools/logos.mjs`.
+
+Pendiente que nace de esto: el iframe de Google Maps deja cookies de Google, así que hace falta un aviso de
+cookies antes de publicar en el dominio definitivo.

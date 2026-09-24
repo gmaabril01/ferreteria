@@ -30,27 +30,22 @@ for (const [from, to] of copies) {
   copyFileSync(join(nm, from), dest);
 }
 
-// Solo lo que usan js/three-core.js, js/intro.js y js/mini.js: así el paquete pesa lo mínimo.
+// Solo lo que usan js/three-core.js y js/mini.js: así el paquete pesa lo mínimo.
 const entry = `
 import {
-  WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, InstancedMesh, Object3D, Vector2, Vector3, Color, BufferAttribute,
-  Matrix4, Quaternion, Euler, MathUtils, BufferGeometry, BoxGeometry, CylinderGeometry, LatheGeometry,
-  TubeGeometry, TorusGeometry, ExtrudeGeometry, SphereGeometry, PlaneGeometry, CircleGeometry, Shape, Path,
-  CatmullRomCurve3, Curve, MeshStandardMaterial, MeshPhysicalMaterial, MeshBasicMaterial, ShadowMaterial,
-  AmbientLight, DirectionalLight, PointLight, SpotLight, HemisphereLight, PMREMGenerator, ACESFilmicToneMapping,
-  SRGBColorSpace, PCFSoftShadowMap, DoubleSide, CanvasTexture, Fog, FogExp2, RepeatWrapping
+  WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, Object3D, Vector2, Vector3, Color, BufferAttribute,
+  MathUtils, BoxGeometry, CylinderGeometry, LatheGeometry, TubeGeometry, ExtrudeGeometry, PlaneGeometry, Shape, Path,
+  Curve, MeshStandardMaterial, MeshPhysicalMaterial, MeshBasicMaterial, DirectionalLight, HemisphereLight,
+  PMREMGenerator, ACESFilmicToneMapping, SRGBColorSpace, CanvasTexture
 } from 'three';
-import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
-import { mergeGeometries, mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 window.THREE = {
-  WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, InstancedMesh, Object3D, Vector2, Vector3, Color, BufferAttribute,
-  Matrix4, Quaternion, Euler, MathUtils, BufferGeometry, BoxGeometry, CylinderGeometry, LatheGeometry,
-  TubeGeometry, TorusGeometry, ExtrudeGeometry, SphereGeometry, PlaneGeometry, CircleGeometry, Shape, Path,
-  CatmullRomCurve3, Curve, MeshStandardMaterial, MeshPhysicalMaterial, MeshBasicMaterial, ShadowMaterial,
-  AmbientLight, DirectionalLight, PointLight, SpotLight, HemisphereLight, PMREMGenerator, ACESFilmicToneMapping,
-  SRGBColorSpace, PCFSoftShadowMap, DoubleSide, CanvasTexture, Fog, FogExp2, RepeatWrapping,
-  RoundedBoxGeometry, RoomEnvironment, mergeGeometries, mergeVertices
+  WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, Object3D, Vector2, Vector3, Color, BufferAttribute,
+  MathUtils, BoxGeometry, CylinderGeometry, LatheGeometry, TubeGeometry, ExtrudeGeometry, PlaneGeometry, Shape, Path,
+  Curve, MeshStandardMaterial, MeshPhysicalMaterial, MeshBasicMaterial, DirectionalLight, HemisphereLight,
+  PMREMGenerator, ACESFilmicToneMapping, SRGBColorSpace, CanvasTexture,
+  RoomEnvironment, mergeGeometries
 };
 `;
 

@@ -1,35 +1,63 @@
 ---
-version: 1
+version: 2
 slug: "sitio-index-html"
-primary_target: "sitio/index.html"
+primary_target: "index.html"
 related_targets: []
 ---
 
-# Surface: sitio/index.html (one-page website)
+# Surface: index.html (one-page website)
 
 Mode: Persuade. Audience: homeowners and trade professionals in Lanzarote, equally.
-Job: find the right store, hours and phone; trust the range. Primary action: call or get directions.
-Proof on hand: real store photos, three literal Google reviews, 17 supplier brands. Never claim services beyond sales + advice.
-Pinned by the brief: scroll-opened 3D toolbox intro; 3D/animated screws varied across the page; muted black and red.
+Job: find the right store, hours and phone; trust the range. Primary action: call, WhatsApp or get directions.
+Proof on hand: real store photos, three literal Google reviews, 17 supplier brands with their own logos. Never claim services beyond sales + advice.
+
+## Revisión del cliente (2026-09-24) — qué pinnea ahora el encargo
+
+The business owner reviewed the built site and overrode three things that version 1 had pinned:
+the 3D toolbox intro and the hardware rain are **out** (the page opens on the hero), the paint-fan
+colour deck is **out** (a plain directory of the eight specialities takes its place), and the near-black
+ground is **out** (a deep navy replaces it). The supplier wall must show each brand's **logo**, the
+locations map must be a **normal Google map**, and the full legal name must lead the page beside the logo.
+Everything below is the contract as amended; the version 1 wording is in git history.
 
 ## Direction contract
 
-THESIS: The whole obra as a paint fan deck: every category is a lacquered strip fanning out from a through-bolt. Refuses the category default of a storefront photo over a grid of product cards.
+THESIS: A trade counter laid out like a technical catalogue — a numbered directory of the eight
+specialities, then one long card per speciality with a real photo of that aisle. The paint-fan deck it
+replaces was the client's to withdraw; what survives is its discipline: structure as ornament, one ruling
+system, and no stock-photo grid.
 
-OWN-WORLD: One tonal ramp of real RAL tones from picón black (RAL 9005) through anthracite, graphite and dusty grey to oxide (RAL 3009) and flame red (RAL 3000), whitewash text. Strips with rounded ends and a bolt hole; buttons are short strips; structure (bolts, screws, pivots) is the only ornament. One ruling system: 1-device-pixel hairlines and dimension lines. Archivo variable, width axis as the role axis (expanded display, normal body, condensed codes), sentence case.
+OWN-WORLD: One tonal ramp of Atlantic navies — marea (#16202c) through basalto and ceniza to a cold steel
+blue — against whitewash text, with oxide and flame red kept as the only warm accents. Strips with rounded
+ends and a bolt hole; buttons are short strips; structure (bolts, screws, pivots) is the only ornament.
+One ruling system: 1-device-pixel hairlines and dimension lines. Four voices: Barlow Condensed (strong
+heading line and names), Instrument Serif (second heading line, leads, phones, reviews), Geist (body and
+UI), Geist Mono (codes, hours, map). Supplier logos sit on white plates so each brand reads in its own colour.
 
-STORY: Open the toolbox, meet the name and slogan, fan the deck to see the range with real photos, find the right store and today's hours, call. Reviews and brands close the trust.
+STORY: Meet the full name and the storefront, read the directory of what they do, see each speciality,
+locate the three addresses on the island, check today's hours, call or WhatsApp. Reviews and brands close
+the trust.
 
-FIRST VIEWPORT: Closed red-and-black 3D toolbox centred on picón black, one quiet line inviting the scroll and a skip link. Once open: H1 name and large slogan left, "Cómo llegar" and "Llamar" strips below; right, the closed fan deck on its bolt with 3D hardware drifting around it.
+FIRST VIEWPORT: Logo and the full legal name side by side over "Ferretería especializada"; the slogan in two
+voices below, "Llamar" and "Cómo llegar" strips under it; right, the Tías storefront in a rounded frame on a
+faint blueprint grid.
 
-FORM: Carta de colores, candidate 6 of my ordered list (gavetero, despiece técnico, arquitectura volcánica, estanterías de almacén, albarán, carta de colores, señalética industrial); seed 551b8492. Raises: structure as the only ornament (encuadernación vista); one ruling system at 1 device pixel (página de referencia); contact drenched in oxide red as a whole field (cuarto oscuro).
+FORM: Carta de colores, candidate 6 of my ordered list (gavetero, despiece técnico, arquitectura volcánica,
+estanterías de almacén, albarán, carta de colores, señalética industrial); seed 551b8492. The fan deck is
+withdrawn by the client; its raises stand: structure as the only ornament (encuadernación vista); one ruling
+system at 1 device pixel (página de referencia); contact drenched in oxide red as a whole field (cuarto oscuro).
 
-FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict,
+DESIGN.md, and every shipping raster carrying its provenance
 
 ## Signature interaction and motion grammar
 
-Signature: the fan deck. In "Lo que hacemos" (desktop) the deck is pinned; scrolling fans the strips open around the bolt, then swings each category strip upright in turn while its photo and line appear beside it. Motion grammar: rotation about a pivot (lid hinge, deck bolt, gears, screw turns); no generic fade-up entrances.
+Signature: rotation about a pivot — the gears in "Sobre nosotros" mesh and turn with the scroll, the wrench in
+"Contacto" tightens its bolt, the dimension-line screws turn as the page advances, and every review swings from
+its screw. No generic fade-up entrances; cards wake as they enter, each fx (water, embers, glass) starting with
+its card.
 
 ## Unresolved
 
-Domain (placeholder suministrosjoseluiscabrera.es). Legal pages out of scope.
+Domain (placeholder suministrosjoseluiscabrera.es). Legal pages out of scope, but the Google Maps iframe now
+sets Google cookies, so a cookie notice is needed before launch.

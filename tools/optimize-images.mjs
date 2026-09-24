@@ -24,7 +24,7 @@ const PHOTOS = {
   'elocal.jpeg': 'exposicion-puertas-automatismos',
 };
 const WIDTHS = [640, 1024, 1600];
-const PICON = { r: 20, g: 18, b: 16, alpha: 1 };
+const FONDO = { r: 22, g: 32, b: 44, alpha: 1 };  // azul marino de la web
 
 const report = [];
 const kb = (p) => (statSync(p).size / 1024).toFixed(0) + ' KB';
@@ -95,17 +95,17 @@ async function icon(size, pad, background) {
 }
 const clear = { r: 0, g: 0, b: 0, alpha: 0 };
 await (await icon(32, 0.02, clear)).toFile(join(icons, 'favicon-32.png'));
-await (await icon(180, 0.12, PICON)).toFile(join(icons, 'apple-touch-icon.png'));
-await (await icon(192, 0.12, PICON)).toFile(join(icons, 'icon-192.png'));
-await (await icon(512, 0.12, PICON)).toFile(join(icons, 'icon-512.png'));
+await (await icon(180, 0.12, FONDO)).toFile(join(icons, 'apple-touch-icon.png'));
+await (await icon(192, 0.12, FONDO)).toFile(join(icons, 'icon-192.png'));
+await (await icon(512, 0.12, FONDO)).toFile(join(icons, 'icon-512.png'));
 report.push(['favicons', 'ok']);
 
 // ---- Imagen para redes (Open Graph 1200x630) ----
 const ogW = 1200, ogH = 630;
 const shade = Buffer.from(`<svg width="${ogW}" height="${ogH}" xmlns="http://www.w3.org/2000/svg">
   <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0" stop-color="#141210" stop-opacity=".05"/><stop offset=".55" stop-color="#141210" stop-opacity=".35"/>
-    <stop offset="1" stop-color="#141210" stop-opacity=".92"/></linearGradient></defs>
+    <stop offset="0" stop-color="#0f1720" stop-opacity=".05"/><stop offset=".55" stop-color="#0f1720" stop-opacity=".35"/>
+    <stop offset="1" stop-color="#0f1720" stop-opacity=".92"/></linearGradient></defs>
   <rect width="100%" height="100%" fill="url(#g)"/></svg>`);
 // La fachada ya muestra el rótulo y el logo: no se superpone nada más.
 const ogOut = join(root, 'og-image.jpg');

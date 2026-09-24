@@ -1,5 +1,5 @@
 // Capturas de revisión con Chrome local (sin descargas): node shots.mjs <desktop|mobile> <salida> [puntos...]
-// Puntos: i0.3 (fracción de la intro), p0.5 (fracción de la carta fijada), #id (sección), full (página completa)
+// Puntos: i0.3 (pantallas desde arriba), p0.5 (pantallas desde «Lo que hacemos»), #id (sección), full (página completa)
 import puppeteer from 'puppeteer-core';
 import { mkdirSync } from 'node:fs';
 import { join } from 'node:path';
@@ -41,11 +41,9 @@ for (const pt of points.length ? points : ['i0']) {
     document.documentElement.style.scrollBehavior = 'auto';
     let y = 0;
     if (p.startsWith('i')) {
-      const i = document.querySelector('[data-intro]');
-      y = (i.offsetHeight - innerHeight) * parseFloat(p.slice(1));
+      y = innerHeight * parseFloat(p.slice(1));
     } else if (p.startsWith('p')) {
-      const st = window.ScrollTrigger && ScrollTrigger.getAll().find((s) => s.trigger && s.trigger.classList.contains('deck-pin'));
-      y = st ? st.start + (st.end - st.start) * parseFloat(p.slice(1)) : document.getElementById('productos').offsetTop;
+      y = document.getElementById('productos').offsetTop + innerHeight * parseFloat(p.slice(1));
     } else if (p === 'end') {
       y = document.documentElement.scrollHeight;
     } else if (p.startsWith('#')) {

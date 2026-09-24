@@ -1,7 +1,8 @@
 # Web de Suministros José Luis Cabrera S.L.
 
-Web de una sola página (HTML, CSS y JavaScript sin compilación) con intro 3D de una caja de herramientas,
-carta de colores de productos, tiendas, horario en vivo, contacto, sobre nosotros, reseñas y proveedores.
+Web de una sola página (HTML, CSS y JavaScript sin compilación): portada con el nombre completo y la fachada,
+directorio y fichas de producto, localizaciones con mapa de Google, horario en vivo, contacto con WhatsApp,
+sobre nosotros, reseñas y proveedores con sus logotipos.
 
 ## Dónde está la web
 
@@ -38,7 +39,10 @@ Actualiza la URL canónica, las etiquetas para redes sociales, los datos estruct
 1. Sube la web y comprueba que carga por `https://`. Si tienes SSL, activa la redirección a HTTPS en `.htaccess`.
 2. Da de alta el dominio en Google Search Console y envía `sitemap.xml`.
 3. Revisa que la ficha de Google Business de cada tienda use el mismo nombre, dirección y teléfonos que la web.
-4. Añade el aviso legal y la política de privacidad (obligatorios para una S.L.; la web no usa cookies).
+4. Añade el aviso legal y la política de privacidad (obligatorios para una S.L.).
+5. El mapa de «Localizaciones» es un iframe de Google Maps y **Google deja cookies propias** al cargarlo:
+   hace falta un aviso de cookies. Si se prefiere evitarlo, se puede sustituir el iframe por una imagen del
+   mapa que enlace a Google Maps.
 
 Cada vez que cambies `styles.css` o algún `.js`, sube también `index.html` con la versión `?v=` actualizada
 (fecha del cambio) para que nadie vea la versión antigua guardada en caché.
@@ -51,4 +55,5 @@ Cada vez que cambies `styles.css` o algún `.js`, sube también `index.html` con
 | `npm test` | tests del horario, del cambio de dominio y del SEO del HTML |
 | `node vendor.mjs` | vuelve a copiar Three.js, GSAP y la tipografía a `lib/` y `assets/` |
 | `node optimize-images.mjs` | convierte las fotos originales a WebP, recorta el logo y crea iconos |
+| `node logos.mjs` | prepara los logotipos de `tools/logos-src` para `assets/logos` |
 | `node shots.mjs desktop <carpeta> i0 i1 #tiendas` | capturas de revisión con Chrome |

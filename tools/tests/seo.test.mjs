@@ -9,7 +9,9 @@ const graph = ldMatch ? JSON.parse(ldMatch[1])['@graph'] : [];
 
 test('un solo h1 y contiene el nombre de la empresa', () => {
   assert.equal((html.match(/<h1[\s>]/g) || []).length, 1);
-  assert.match(html, /<h1[^>]*>[\s\S]*Suministros José Luis Cabrera S\.L\.[\s\S]*<\/h1>/);
+  // El nombre va a dos voces (un <b> para la parte en cursiva): se compara el texto, no el marcado.
+  const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ');
+  assert.match(h1, /Suministros José Luis Cabrera S\.L\./);
 });
 
 test('title y meta description con longitud adecuada', () => {
@@ -30,7 +32,9 @@ test('todas las imágenes tienen alt, tamaño y existen', () => {
   const imgs = html.match(/<img\b[^>]*>/g);
   assert.ok(imgs.length >= 10);
   for (const tag of imgs) {
-    assert.match(tag, /\balt="[^"]+"/, tag);
+    // alt="" solo vale para lo decorativo: los logotipos de proveedores llevan el nombre en texto al lado.
+    const decorativa = /\balt=""/.test(tag) && /assets\/logos\//.test(tag);
+    if (!decorativa) assert.match(tag, /\balt="[^"]+"/, tag);
     assert.match(tag, /\bwidth="\d+"/, tag);
     assert.match(tag, /\bheight="\d+"/, tag);
     const src = tag.match(/\bsrc="([^"]+)"/)[1];

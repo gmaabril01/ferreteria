@@ -3,7 +3,7 @@
 (function () {
   "use strict";
 
-  var VER = "2026092303";
+  var VER = "2026092404";
   var ns = (window.__JLC__ = window.__JLC__ || {});
   var root = document.documentElement;
   var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -12,7 +12,6 @@
   var $ = function (sel, scope) { return (scope || document).querySelector(sel); };
   var $$ = function (sel, scope) { return Array.prototype.slice.call((scope || document).querySelectorAll(sel)); };
   function safe(fn, name) { try { fn(); } catch (e) { console.warn("[" + name + "]", e); } }
-  function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
 
   function loadScript(src) {
     return new Promise(function (resolve, reject) {
@@ -82,22 +81,18 @@
   ns.scrollToY = scrollToY;
 
   // ---------- Navegación ----------
-  function introEnd() {
-    var intro = $("[data-intro]");
-    return intro ? intro.offsetTop + intro.offsetHeight - innerHeight : 0;
-  }
-
   function initNav() {
     var nav = $("[data-nav]");
     var menu = $("[data-menu]");
     var toggle = $("[data-menu-toggle]");
     if (!nav) return;
 
+    // La barra se apoya sobre el fondo en cuanto la portada empieza a subir.
     var ticking = false;
     function update() {
       ticking = false;
-      var show = !root.classList.contains("intro-on") || scrollY > introEnd() - innerHeight * 0.35;
-      nav.classList.toggle("is-shown", show);
+      nav.classList.toggle("is-shown", true);
+      nav.classList.toggle("is-solid", scrollY > 40);
     }
     addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
     addEventListener("resize", update);
@@ -138,14 +133,9 @@
       if (!a) return;
       var id = a.getAttribute("href");
       if (!id || id === "#") return;
-      var top;
-      if (id === "#inicio" && root.classList.contains("intro-on")) {
-        top = introEnd();
-      } else {
-        var el = document.querySelector(id);
-        if (!el) return;
-        top = el.getBoundingClientRect().top + scrollY - (id === "#contenido" ? 0 : 70);
-      }
+      var el = document.querySelector(id);
+      if (!el) return;
+      var top = el.getBoundingClientRect().top + scrollY - (id === "#contenido" ? 0 : 70);
       e.preventDefault();
       scrollToY(top);
       if (id !== "#inicio") history.replaceState(null, "", id);
@@ -156,7 +146,7 @@
   function initReveals() {
     var targets = $$(".tiendas .section-head, .horario .section-head, .resenas .section-head, .proveedores .section-head, .tienda, .resenas-list li, .contacto-inner, .nosotros-copy, .footer-brand");
     targets.forEach(function (el) { el.setAttribute("data-reveal", ""); });
-    var extras = $$(".regla, .linea, .mapa, .productos .section-head");
+    var extras = $$(".regla, .linea, .mapa, .productos .section-head, .directorio");
     var all = targets.concat(extras);
     if (!("IntersectionObserver" in window)) { all.forEach(function (el) { el.classList.add("is-in"); }); return; }
     var io = new IntersectionObserver(function (entries) {
@@ -217,21 +207,6 @@
     });
   }
 
-  function initStorePins() {
-    var map = $("[data-map]");
-    if (!map) return;
-    $$(".tienda[data-store]").forEach(function (t) {
-      var pin = $('[data-map-pin="' + t.getAttribute("data-store") + '"]', map);
-      if (!pin) return;
-      function on() { pin.classList.add("is-hot"); }
-      function off() { pin.classList.remove("is-hot"); }
-      t.addEventListener("mouseover", function (e) { if (!t.contains(e.relatedTarget)) on(); });
-      t.addEventListener("mouseout", function (e) { if (!t.contains(e.relatedTarget)) off(); });
-      t.addEventListener("focusin", on);
-      t.addEventListener("focusout", off);
-    });
-  }
-
   // ---------- Proveedores ----------
   function initMarquee() {
     var wrap = $("[data-marquee]");
@@ -273,44 +248,6 @@
   }
 
   // ---------- 3D ----------
-  function introOff() {
-    root.classList.remove("intro-on");
-    root.classList.add("intro-off");
-    if (window.ScrollTrigger) ScrollTrigger.refresh();
-    if (ns.updateNav) ns.updateNav();
-  }
-
-  function initIntro() {
-    var canvas = $("[data-intro-canvas]");
-    var intro = $("[data-intro]");
-    var hero = $("[data-hero]");
-    var cue = $("[data-intro-cue]");
-    if (!canvas || !ns.intro) { introOff(); return; }
-    var scene = ns.intro.init({ canvas: canvas, reduced: reduced, mobile: innerWidth < 900 });
-    if (!scene) { introOff(); return; }
-    root.classList.add("intro-on");
-    canvas.classList.add("is-ready");
-
-    function apply(p) {
-      scene.progress(p);
-      var heroIn = clamp((p - 0.7) / 0.18, 0, 1);
-      hero.style.setProperty("--hero-in", heroIn.toFixed(3));
-      hero.classList.toggle("is-live", heroIn > 0.6);
-      var deck = $("[data-hero-deck]", hero);
-      if (deck) deck.style.setProperty("--fan", clamp((p - 0.86) / 0.14, 0, 1).toFixed(3));
-      if (cue) cue.style.opacity = clamp(1 - p * 7, 0, 1).toFixed(3);
-    }
-
-    ScrollTrigger.create({
-      trigger: intro, start: "top top", end: "bottom bottom", scrub: true,
-      onUpdate: function (self) { apply(self.progress); },
-      onRefresh: function (self) { apply(self.progress); }
-    });
-    apply(clamp(scrollY / Math.max(1, introEnd()), 0, 1));
-    ScrollTrigger.refresh();
-    if (ns.updateNav) ns.updateNav();
-  }
-
   // Las escenas 3D pequeñas (llave y engranajes) se construyen en momentos de reposo nada más
   // cargar, y no al llegar a su sección: construirlas en pleno scroll daba tirones de 200 a 400 ms.
   function initMiniStages() {
@@ -341,15 +278,12 @@
   }
 
   function init3D() {
-    if (!window.gsap || !window.ScrollTrigger || !hasWebGL()) { introOff(); return; }
+    if (!hasWebGL()) return;
     loadScript("lib/three.bundle.min.js")
       .then(function () { return loadScript("js/three-core.js"); })
-      .then(function () { return Promise.all([loadScript("js/intro.js"), loadScript("js/mini.js")]); })
-      .then(function () {
-        try { initIntro(); } catch (e) { console.warn("[initIntro]", e); introOff(); }
-        safe(initMiniStages, "initMiniStages");
-      })
-      .catch(function (e) { console.warn("[3D]", e); introOff(); });
+      .then(function () { return loadScript("js/mini.js"); })
+      .then(function () { safe(initMiniStages, "initMiniStages"); })
+      .catch(function (e) { console.warn("[3D]", e); });
   }
 
   // ---------- Arranque ----------
@@ -370,7 +304,6 @@
     safe(initReveals, "initReveals");
     safe(initHorario, "initHorario");
     safe(initGalleries, "initGalleries");
-    safe(initStorePins, "initStorePins");
     safe(initMarquee, "initMarquee");
     safe(initMagnetic, "initMagnetic");
     safe(function () { if (ns.productos) ns.productos.init(); }, "productos");
