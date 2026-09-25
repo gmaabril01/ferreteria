@@ -12,6 +12,11 @@
 #
 # Doesn't work on Nginx VPS — those need server-level config.
 
+# ----- Homepage -----
+# Serve index.html and nothing else as the directory index, so a leftover
+# index.htm / index.php from a previous site can never take over the homepage.
+DirectoryIndex index.html
+
 # ----- Cache duration -----
 <IfModule mod_expires.c>
   ExpiresActive On
