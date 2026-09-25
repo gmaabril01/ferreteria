@@ -9,7 +9,14 @@ sobre nosotros, reseñas y proveedores con sus logotipos.
 La web está en la **raíz del repositorio**, así que GitHub Pages la muestra directamente en
 https://gmaabril01.github.io/ferreteria/ (sin pasos intermedios). Cada `git push` a `main` la actualiza.
 
-**Para Hostinger** sube solo estos archivos y carpetas a `public_html`:
+La forma cómoda de subirla o enviarla es generar el paquete:
+
+```bash
+node tools/pack.mjs
+```
+
+Deja `dist/suministros-jlc-web.zip` (unos 2 MB) con todo lo necesario y nada más.
+Si prefieres subir archivo a archivo, **Para Hostinger** sube solo estos archivos y carpetas a `public_html`:
 `index.html`, `styles.css`, `main.js`, `js/`, `lib/`, `assets/`, `og-image.jpg`, `robots.txt`,
 `sitemap.xml`, `site.webmanifest` y el archivo oculto `.htaccess` (activa «mostrar archivos ocultos» para verlo).
 
@@ -56,4 +63,5 @@ Cada vez que cambies `styles.css` o algún `.js`, sube también `index.html` con
 | `node vendor.mjs` | vuelve a copiar Three.js, GSAP y la tipografía a `lib/` y `assets/` |
 | `node optimize-images.mjs` | convierte las fotos originales a WebP, recorta el logo y crea iconos |
 | `node logos.mjs` | prepara los logotipos de `tools/logos-src` para `assets/logos` |
+| `node pack.mjs` | crea `dist/suministros-jlc-web.zip` con lo que va al hosting |
 | `node shots.mjs desktop <carpeta> i0 i1 #tiendas` | capturas de revisión con Chrome |
